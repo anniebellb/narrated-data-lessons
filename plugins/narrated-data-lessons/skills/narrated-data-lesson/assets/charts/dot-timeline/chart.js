@@ -19,7 +19,9 @@ export async function createChart({ mount, data, lesson, api }) {
   const stateEdge = stateColor.map(c => d3.color(c).darker(0.9).formatHex());
   const grey = new Set(cfg.grey || []);
   const labelHue = Object.fromEntries(ROWS.map(id => [id, grey.has(id) ? d3.color(colorOf(id)).darker(1.2).formatHex() : colorOf(id)]));
-  const DOTS = cfg.dots || 200, R = cfg.dotRadius || 2.6, DIM = 0.07;
+  // Phones get half the dots (a full group won't fit side by side at a readable size).
+  const DOTS = Math.round((cfg.dots || 200) * (window.innerWidth < 600 ? 0.5 : 1)), R_BASE = cfg.dotRadius || 2.6, DIM = 0.07;
+  let R = R_BASE;   // shrinks only when the screen is too narrow for full-size clusters
   // Pre-rendered dots (fill + darker rim) per colour at screen resolution: 1,400 vector
   // circles a frame is slow in some browsers (Safari). Looks the same as the vector dots.
   let sprites = null;
@@ -32,9 +34,9 @@ export async function createChart({ mount, data, lesson, api }) {
       g.globalAlpha = rimA; g.lineWidth = lw; g.strokeStyle = stateEdge[i]; g.stroke();
       return { c, size, half: size / 2 };
     });
-    sprites = { dpr, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7, 1.3, 1) };
+    sprites = { dpr, R, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7 * R / R_BASE, 1.3, 1) };
   }
-  const SP = (2 * R + 1.1) * 0.56;
+  let SP = (2 * R + 1.1) * 0.56;
   const STAT = cfg.headerStat;                                          // {state, suffix}
   const SOCIAL = cfg.social || [];
   const start = cfg.clockStart ?? 240;                                  // minutes after midnight at pos 0 (4:00am)
@@ -51,7 +53,8 @@ export async function createChart({ mount, data, lesson, api }) {
   }
 
   let ctx, W = 0, H = 0, colW = 0, colX = [], rowY = {}, rowTop = {}, rowH = {}, rowBottom = 0;
-  const LABEL_X = 16, LABEL_W = 126, HEAD_H = 62, FOOT = 14;
+  let LABEL_X = 16, LABEL_W = 126, HEAD_H = 62, compact = false, mid = false;
+  const FOOT = 14;
   const nodes = [];
   data.groups.forEach((g, gi) => g.people.slice(0, DOTS).forEach(seq => nodes.push({ g: gi, seq, p: 0, state: seq[0], a: 1, b: 0 })));
   let minute = 0;
@@ -67,6 +70,13 @@ export async function createChart({ mount, data, lesson, api }) {
   function layout() {
     ({ ctx, W, H } = fx.fitCanvas(canvas));
     if (!W || !H) return;
+    // Narrow screens: tighter label column, and dots/clusters scale down just enough that a
+    // full cluster fits its column (no sideways scrolling). Wide screens: scale 1, unchanged.
+    compact = W < 560; mid = !compact && W < 800;
+    LABEL_W = compact ? 82 : mid ? 112 : 126; LABEL_X = compact ? 6 : mid ? 10 : 16; HEAD_H = compact ? 48 : 62;
+    const fullCluster = 2 * ((2 * R_BASE + 1.1) * 0.56 * Math.sqrt(DOTS) + R_BASE);
+    const scale = Math.min(1, (W - LABEL_W) / G / (fullCluster + (compact || mid ? 6 : 0)));
+    R = R_BASE * scale; SP = (2 * R + 1.1 * scale) * 0.56;
     const unit = (H - HEAD_H - FOOT) / ROWS.reduce((s, id) => s + (ROW_WEIGHT[id] || 1), 0);
     let y = HEAD_H;
     ROWS.forEach(id => { const h = unit * (ROW_WEIGHT[id] || 1); rowTop[id] = y; rowH[id] = h; rowY[id] = y + h / 2; y += h; });
@@ -168,20 +178,30 @@ export async function createChart({ mount, data, lesson, api }) {
       const cb = fx.bump(fxT.rows, i * 170, 900, now), t = Math.max(labelT[id], cb), base = on ? api.muted : api.faint;
       if (cb > 0.01) { const c = d3.color(labelHue[id]); ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},${0.13 * cb})`; ctx.fillRect(2, rowTop[id] + 2, W - 4, rowH[id] - 4); }
       const words = label[id].toUpperCase().split(" & ");
-      ctx.font = `700 ${(10.5 * (1 + 0.22 * cb)).toFixed(2)}px ${api.font}`; ctx.textAlign = "left";
-      words.forEach((w, kk) => fx.crossText(ctx, kk ? "& " + w : w, LABEL_X, rowY[id] + (kk - (words.length - 1) / 2) * 13, base, labelHue[id], t));
+      const lh = compact ? 10 : mid ? 12 : 13, fs = compact ? 7.5 : mid ? 9.5 : 10.5;
+      ctx.font = `700 ${(fs * (1 + 0.22 * cb)).toFixed(2)}px ${api.font}`; ctx.textAlign = "left";
+      words.forEach((w, kk) => fx.crossText(ctx, kk ? "& " + w : w, LABEL_X, rowY[id] + (kk - (words.length - 1) / 2) * lh, base, labelHue[id], t));
       if (i) { ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(LABEL_W - 10, rowTop[id], W - LABEL_W + 4, 1); }
     });
     ctx.textAlign = "center";
     data.groups.forEach((g, gi) => {
       const on = !focus || !focus.cols || focus.cols.includes(gi);
-      ctx.font = `700 13.5px ${api.font}`;
+      const hy = compact ? 18 : 24, sy = compact ? 33 : 42;
+      ctx.font = `700 ${compact ? 10 : 13.5}px ${api.font}`;
       const sw = fx.bump(fxT.cols, gi * 200, 850, now), base = on ? 1 : 0.35;
-      ctx.globalAlpha = base * (1 - sw); ctx.fillStyle = api.ink; ctx.fillText(g.id, colX[gi], 24 - 3 * sw);
-      if (sw > 0.01) { ctx.globalAlpha = sw; ctx.fillStyle = fx.ACCENT; ctx.fillText(g.id, colX[gi], 24 - 3 * sw); }
+      ctx.globalAlpha = base * (1 - sw); ctx.fillStyle = api.ink; ctx.fillText(g.id, colX[gi], hy - 3 * sw);
+      if (sw > 0.01) { ctx.globalAlpha = sw; ctx.fillStyle = fx.ACCENT; ctx.fillText(g.id, colX[gi], hy - 3 * sw); }
       ctx.globalAlpha = base;
-      if (STAT) { ctx.font = `500 11.5px ${api.font}`; ctx.fillStyle = colorOf(STAT.state); ctx.fillText(`${Math.round(counts[gi][sIdx[STAT.state]] / DOTS * 100)}% ${STAT.suffix}`, colX[gi], 42); }
+      if (STAT) {   // phones: just the number per column, the "% alone" label once at the left
+        const pct = Math.round(counts[gi][sIdx[STAT.state]] / DOTS * 100);
+        ctx.font = `500 ${compact ? 9.5 : 11.5}px ${api.font}`; ctx.fillStyle = colorOf(STAT.state);
+        ctx.fillText(compact ? `${pct}%` : `${pct}% ${STAT.suffix}`, colX[gi], sy);
+      }
     });
+    if (STAT && compact) {
+      ctx.globalAlpha = 1; ctx.textAlign = "left"; ctx.font = `500 9.5px ${api.font}`; ctx.fillStyle = colorOf(STAT.state);
+      ctx.fillText(`% ${STAT.suffix}`, LABEL_X, 33); ctx.textAlign = "center";
+    }
     ctx.globalAlpha = 1;
     boxes.draw(ctx, "fill");
     if (breatheA > 0.01 && cfg.breatheState) {
@@ -198,7 +218,7 @@ export async function createChart({ mount, data, lesson, api }) {
       fx.halo(ctx, d3.mean(c, n => n.x), d3.mean(c, n => n.y), SP * Math.sqrt(c.length) + R, stateColor[h.s], Math.sin(Math.PI * u), 12 * u);
     });
     const dpr = window.devicePixelRatio || 1;
-    if (!sprites || sprites.dpr !== dpr) makeSprites(dpr);
+    if (!sprites || sprites.dpr !== dpr || sprites.R !== R) makeSprites(dpr);
     nodes.forEach(n => {
       ctx.globalAlpha = n.a;
       if (n !== hovered && (n.b < 0.02 || n.b > 0.98)) {   // common case: a ready-made sprite, snapped to device pixels
@@ -206,7 +226,7 @@ export async function createChart({ mount, data, lesson, api }) {
         ctx.drawImage(sp.c, Math.round((n.x - sp.half) * dpr) / dpr, Math.round((n.y - sp.half) * dpr) / dpr, sp.size, sp.size);
         return;
       }
-      const rad = n === hovered ? R + 2 : R + 0.7 * n.b;
+      const rad = n === hovered ? R + 2 : R + 0.7 * (R / R_BASE) * n.b;
       ctx.beginPath(); ctx.arc(n.x, n.y, rad, 0, Math.PI * 2); ctx.fillStyle = stateColor[n.state]; ctx.fill();
       ctx.lineWidth = 0.8 + 0.5 * n.b; ctx.strokeStyle = stateEdge[n.state]; ctx.globalAlpha = n.a * (0.45 + 0.55 * n.b); ctx.stroke();
       if (n === hovered) { ctx.globalAlpha = 1; ctx.lineWidth = 2; ctx.strokeStyle = api.ink; ctx.stroke(); }

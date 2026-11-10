@@ -188,8 +188,8 @@ button:focus-visible { outline: 2px solid var(--tw-accent); outline-offset: 2px;
 .dv-speed button.on { background: var(--tw-panel); color: var(--tw-ink); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
 .dv-area { position: absolute; left: 14px; right: 18px; top: 124px; bottom: 184px; z-index: 1; transition: bottom .3s ease; }
 .tw-stage.in-video .dv-area { bottom: 176px; }
-.dv-sim { position: absolute; inset: 0; overflow-x: auto; overflow-y: hidden; transition: opacity .45s ease; }
-#bubbles { display: block; width: 100%; min-width: 680px; height: 100%; }
+.dv-sim { position: absolute; inset: 0; overflow: hidden; transition: opacity .45s ease; }
+#bubbles { display: block; width: 100%; height: 100%; }
 .dv-chart { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity .45s ease; }
 .dv-area .off { opacity: 0; pointer-events: none; }
 .dv-chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px 0 4px; }
@@ -335,6 +335,22 @@ body { letter-spacing: -0.01em; }
   .tw-player { bottom: 10px; }
   .dv-area { bottom: 150px; }
 }
+@media (max-width: 600px) {
+  .tw { grid-template-rows: auto auto; padding: 8px 10px; }
+  .tw-stage { height: min(86vh, 760px); min-height: 560px; }
+  .dv-top { top: 14px; gap: 8px; }
+  .dv-area { left: 4px; right: 6px; top: 104px; bottom: 148px; }
+  .tw-stage.in-video .dv-area { top: 62px; bottom: 148px; }
+  /* caption: three lines at a time, scrolling along with the narrator */
+  .tw-vcap { font-size: 13px; line-height: 1.45; position: relative; padding: 6px 12px 12px; max-height: calc(3 * 1.45em + 12px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(transparent 0, #000 7px); mask-image: linear-gradient(transparent 0, #000 7px); }
+  .tw-player { width: calc(100% - 16px); gap: 8px; }
+  /* time slider: label every 6 hours (6am, noon, 6pm, midnight) so labels don't collide */
+  #scale span[data-h="5"], #scale span[data-h="11"], #scale span[data-h="17"], #scale span[data-h="23"] { display: none; }
+  .tw-dock { bottom: 14px; gap: 10px; width: calc(100% - 16px); }
+  .tw-actions { flex-wrap: nowrap; gap: 6px; }
+  .tw-action { font-size: 12.5px; padding: 8px 11px; gap: 5px; white-space: nowrap; }
+}
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
@@ -448,8 +464,10 @@ body { letter-spacing: -0.01em; }
 const ROWS = ["work", "others", "friends", "family", "children", "partner", "alone", "sleep"];
 const ROW_WEIGHT = { sleep: 1.6 };
 const COMPANIONS = ["alone", "partner", "children", "family", "friends", "others"];
-const DOTS = 200;            // per age group
-const R = 2.6;
+// Phones get 100 dots per group (200 won't fit side by side at a readable size).
+const DOTS = window.innerWidth < 600 ? 100 : 200;   // per age group
+const R_BASE = 2.6;
+let R = R_BASE;              // shrinks only when the screen is too narrow for full-size clusters
 const DIM = 0.07;            // opacity of dots outside the narrated focus
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const color = id => css(`--s-${id}`);
@@ -501,7 +519,8 @@ function init(data, story) {
 
   // ───────────── simulation state ─────────────
   const canvas = $("bubbles"), ctx = canvas.getContext("2d");
-  const LABEL_X = 16, LABEL_W = 126, HEAD_H = 62, FOOT = 14;   // margins leave room for the highlight box
+  let LABEL_X = 16, LABEL_W = 126, HEAD_H = 62, compact = false, mid = false;   // margins leave room for the highlight box
+  const FOOT = 14;
   let W = 0, H = 0, colX = [], rowY = {}, rowTop = {}, rowH = {}, colW = 0, rowBottom = 0;
   const nodes = [];
   data.groups.forEach((g, gi) => g.people.slice(0, DOTS).forEach(seq => nodes.push({ g: gi, seq, p: 0, state: seq[0], a: 1, b: 0 })));
@@ -514,6 +533,13 @@ function init(data, story) {
     if (!W || !H) return;
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Narrow screens: tighter label column, and dots/clusters scale down just enough that
+    // a full cluster fits its column. At 1280px and wider nothing changes (scale 1).
+    compact = W < 560; mid = !compact && W < 800;
+    LABEL_W = compact ? 82 : mid ? 112 : 126; LABEL_X = compact ? 6 : mid ? 10 : 16; HEAD_H = compact ? 48 : 62;
+    const fullCluster = 2 * ((2 * R_BASE + 1.1) * 0.56 * Math.sqrt(DOTS) + R_BASE);   // a whole group in one cell
+    const scale = Math.min(1, (W - LABEL_W) / G / (fullCluster + (compact || mid ? 6 : 0)));
+    R = R_BASE * scale; SP = (2 * R + 1.1 * scale) * 0.56;
     const unit = (H - HEAD_H - FOOT) / ROWS.reduce((s, id) => s + (ROW_WEIGHT[id] || 1), 0);
     let y = HEAD_H;
     ROWS.forEach(id => { const h = unit * (ROW_WEIGHT[id] || 1); rowTop[id] = y; rowH[id] = h; rowY[id] = y + h / 2; y += h; });
@@ -529,7 +555,7 @@ function init(data, story) {
   // Fixed-slot packing: each (age group, state) cell is a dense sunflower spiral.
   // Arrivals take the next slot; a departure is filled by the cell's last dot,
   // so clusters only change at the edge and never "boil".
-  const SP = (2 * R + 1.1) * 0.56, GOLDEN = Math.PI * (3 - Math.sqrt(5));
+  let SP = (2 * R + 1.1) * 0.56; const GOLDEN = Math.PI * (3 - Math.sqrt(5));
   const cells = new Map();
   const cellOf = (g, s) => { const k = g * 100 + s; if (!cells.has(k)) cells.set(k, []); return cells.get(k); };
   function setTarget(n) {
@@ -829,7 +855,7 @@ function init(data, story) {
       g.globalAlpha = rimA; g.lineWidth = lw; g.strokeStyle = stateEdge[i]; g.stroke();
       return { c, size, half: size / 2 };
     });
-    sprites = { dpr, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7, 1.3, 1) };
+    sprites = { dpr, R, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7 * R / R_BASE, 1.3, 1) };
   }
   const counts = d3.range(G).map(() => new Array(states.length).fill(0));
   let hovered = null;
@@ -851,8 +877,9 @@ function init(data, story) {
         ctx.fillRect(2, rowTop[id] + 2, W - 4, rowH[id] - 4);
       }
       const words = label[id].toUpperCase().split(" & ");
-      const put = () => words.forEach((w, k) => ctx.fillText(k ? "& " + w : w, LABEL_X, rowY[id] + (k - (words.length - 1) / 2) * 13));
-      ctx.font = `700 ${(10.5 * (1 + 0.22 * cb)).toFixed(2)}px ${FONT}`;
+      const lh = compact ? 10 : mid ? 12 : 13, fs = compact ? 7.5 : mid ? 9.5 : 10.5;
+      const put = () => words.forEach((w, k) => ctx.fillText(k ? "& " + w : w, LABEL_X, rowY[id] + (k - (words.length - 1) / 2) * lh));
+      ctx.font = `700 ${(fs * (1 + 0.22 * cb)).toFixed(2)}px ${FONT}`;
       if (t < 0.99) { ctx.globalAlpha = 1 - t; ctx.fillStyle = base; put(); }
       if (t > 0.01) { ctx.globalAlpha = t; ctx.fillStyle = labelHue[id]; put(); }
       ctx.globalAlpha = 1;
@@ -862,16 +889,22 @@ function init(data, story) {
     data.groups.forEach((g, gi) => {
       const on = !focus || !focus.cols || focus.cols.includes(gi);
       ctx.globalAlpha = on ? 1 : 0.35;
-      ctx.font = `700 13.5px ${FONT}`; ctx.fillStyle = INK;
+      const hy = compact ? 18 : 24, sy = compact ? 33 : 42;
+      ctx.font = `700 ${compact ? 10 : 13.5}px ${FONT}`; ctx.fillStyle = INK;
       const sw = bump(fx.cols, gi * 200, 850, performance.now());   // intro sweep, left to right
       if (sw > 0.01) {
-        ctx.globalAlpha = (on ? 1 : 0.35) * (1 - sw); ctx.fillText(g.id, colX[gi], 24 - 3 * sw);
-        ctx.globalAlpha = sw; ctx.fillStyle = ACCENT; ctx.fillText(g.id, colX[gi], 24 - 3 * sw);
+        ctx.globalAlpha = (on ? 1 : 0.35) * (1 - sw); ctx.fillText(g.id, colX[gi], hy - 3 * sw);
+        ctx.globalAlpha = sw; ctx.fillStyle = ACCENT; ctx.fillText(g.id, colX[gi], hy - 3 * sw);
         ctx.globalAlpha = on ? 1 : 0.35;
-      } else ctx.fillText(g.id, colX[gi], 24);
-      ctx.font = `500 11.5px ${FONT}`; ctx.fillStyle = color("alone");
-      ctx.fillText(`${Math.round(counts[gi][sIdx.alone] / DOTS * 100)}% alone`, colX[gi], 42);
+      } else ctx.fillText(g.id, colX[gi], hy);
+      ctx.font = `500 ${compact ? 9.5 : 11.5}px ${FONT}`; ctx.fillStyle = color("alone");
+      const pct = Math.round(counts[gi][sIdx.alone] / DOTS * 100);
+      ctx.fillText(compact ? `${pct}%` : `${pct}% alone`, colX[gi], sy);   // phones: "% alone" is written once, at the left
     });
+    if (compact) {
+      ctx.globalAlpha = 1; ctx.textAlign = "left"; ctx.font = `500 9.5px ${FONT}`; ctx.fillStyle = color("alone");
+      ctx.fillText("% alone", LABEL_X, 33); ctx.textAlign = "center";
+    }
     ctx.globalAlpha = 1;
     drawBoxes("fill");
     const nowMs = performance.now();
@@ -888,7 +921,7 @@ function init(data, story) {
       }
     }
     const dpr = window.devicePixelRatio || 1;
-    if (!sprites || sprites.dpr !== dpr) makeSprites(dpr);
+    if (!sprites || sprites.dpr !== dpr || sprites.R !== R) makeSprites(dpr);
     nodes.forEach(n => {
       if (n !== hovered && (n.b < 0.02 || n.b > 0.98)) {   // the common case: a ready-made sprite
         const sp = (n.b > 0.98 ? sprites.focus : sprites.base)[n.state];
@@ -897,7 +930,7 @@ function init(data, story) {
         return;
       }
       ctx.globalAlpha = n.a;
-      const rad = n === hovered ? R + 2 : R + 0.7 * n.b;
+      const rad = n === hovered ? R + 2 : R + 0.7 * (R / R_BASE) * n.b;
       ctx.beginPath(); ctx.arc(n.x, n.y, rad, 0, Math.PI * 2);
       ctx.fillStyle = stateColor[n.state]; ctx.fill();
       ctx.lineWidth = 0.8 + 0.5 * n.b; ctx.strokeStyle = stateEdge[n.state];
@@ -1208,7 +1241,15 @@ function init(data, story) {
     while (beatI + 1 < sc.beats.length && sc.beats[beatI + 1].t <= t) { beatI++; applyCue(sc.beats[beatI].cue, true); }
     // only touch the page when something actually changes (cheaper every frame)
     let said = 0; while (said < capSpans.length && capSpans[said].t <= t + 0.02) said++;
-    if (said !== capSaid) { capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said; }
+    if (said !== capSaid) {
+      capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said;
+      const cap = $("vcap"), cur = capSpans[Math.max(0, said - 1)];   // small screens: keep the spoken line in view
+      if (cur && cap.scrollHeight > cap.clientHeight + 2) {
+        const lh = parseFloat(getComputedStyle(cap).lineHeight) || cur.el.offsetHeight;
+        const k = Math.round((cur.el.offsetTop - 6) / lh) - 1, top = k > 0 ? k * lh + 6 : 0;   // whole lines; previous line stays visible
+        if (Math.abs(cap.scrollTop - top) > 2) cap.scrollTo({ top, behavior: "smooth" });
+      }
+    }
     const sv = Math.round(t / TOTAL * 1000);
     if (sv !== tickVideo.sv) { tickVideo.sv = sv; $("vscrub").value = sv; $("vscrub").style.setProperty("--fill", (sv / 10) + "%"); }
     setText("vtime", `${fmtSec(t)} / ${fmtSec(TOTAL)}`);

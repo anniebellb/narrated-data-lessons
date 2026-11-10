@@ -150,6 +150,15 @@ they pop in fully opaque and never look see-through while fading.
   text/slider writes.
 - Test on the live host, not just locally (network, caching), and in Safari when possible.
 
+**Every screen size** (check phone 375, tablet 768, small laptop 1024, 1280, 1440, 1920):
+- **Never scroll sideways.** The chart always fits its stage.
+- **Wide screens (≈1280px+) keep the approved look exactly** (scale 1). Below that, dots and
+  clusters scale down just enough that a full cluster fits its column, and the label column
+  and fonts tighten (≈800px and ≈560px tiers).
+- **Phones (<600px):** half the dots per group; column stats show just the number with the
+  label written once at the left; the caption is 3 lines that scroll with the narrator, below
+  the chart (never covering it); slider labels every other tick; dock buttons on one row.
+
 ## 7. Explore tab
 
 - Clock **centered** at top with Pause/Slow/Medium/Fast **centered under it**, small.

@@ -330,7 +330,15 @@ export async function runLesson(lessonUrl, assetsBase) {
     while (beatI + 1 < sc.beats.length && sc.beats[beatI + 1].t <= t) { beatI++; applyCue(sc.beats[beatI].cue, true); }
     // only touch the page when something changes (cheaper every frame)
     let said = 0; while (said < capSpans.length && capSpans[said].t <= t + 0.02) said++;
-    if (said !== capSaid) { capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said; }
+    if (said !== capSaid) {
+      capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said;
+      const cap = $("vcap"), cur = capSpans[Math.max(0, said - 1)];   // small screens: keep the spoken line in view
+      if (cur && cap.scrollHeight > cap.clientHeight + 2) {
+        const lh = parseFloat(getComputedStyle(cap).lineHeight) || cur.el.offsetHeight;
+        const k = Math.round((cur.el.offsetTop - 6) / lh) - 1, top = k > 0 ? k * lh + 6 : 0;   // whole lines; previous line stays visible
+        if (Math.abs(cap.scrollTop - top) > 2) cap.scrollTo({ top, behavior: "smooth" });
+      }
+    }
     const sv = Math.round(t / TOTAL * 1000);
     if (sv !== lastSv) { lastSv = sv; $("vscrub").value = sv; $("vscrub").style.setProperty("--fill", (sv / 10) + "%"); }
     setText("vtime", `${fmtSec(t)} / ${fmtSec(TOTAL)}`);

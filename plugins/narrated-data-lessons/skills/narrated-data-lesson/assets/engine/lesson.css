@@ -180,8 +180,8 @@ button:focus-visible { outline: 2px solid var(--tw-accent); outline-offset: 2px;
 .dv-speed button.on { background: var(--tw-panel); color: var(--tw-ink); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
 .dv-area { position: absolute; left: 14px; right: 18px; top: 124px; bottom: 184px; z-index: 1; transition: bottom .3s ease; }
 .tw-stage.in-video .dv-area { bottom: 176px; }
-.dv-sim { position: absolute; inset: 0; overflow-x: auto; overflow-y: hidden; transition: opacity .45s ease; }
-#bubbles { display: block; width: 100%; min-width: 680px; height: 100%; }
+.dv-sim { position: absolute; inset: 0; overflow: hidden; transition: opacity .45s ease; }
+#bubbles { display: block; width: 100%; height: 100%; }
 .dv-chart { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity .45s ease; }
 .dv-area .off { opacity: 0; pointer-events: none; }
 .dv-chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px 0 4px; }
@@ -326,6 +326,21 @@ body { letter-spacing: -0.01em; }
   .tw-vcap { font-size: 14px; padding: 8px 12px; }
   .tw-player { bottom: 10px; }
   .dv-area { bottom: 150px; }
+}
+/* phones: chart above a 3-line caption that scrolls along with the narrator */
+@media (max-width: 600px) {
+  .tw { grid-template-rows: auto auto; padding: 8px 10px; }
+  .tw-stage { height: min(86vh, 760px); min-height: 560px; }
+  .dv-top { top: 14px; gap: 8px; }
+  .dv-area { left: 4px; right: 6px; top: 104px; bottom: 148px; }
+  .tw-stage.in-video .dv-area { top: 62px; bottom: 148px; }
+  .tw-vcap { font-size: 13px; line-height: 1.45; position: relative; padding: 6px 12px 12px; max-height: calc(3 * 1.45em + 12px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(transparent 0, #000 7px); mask-image: linear-gradient(transparent 0, #000 7px); }
+  .tw-player { width: calc(100% - 16px); gap: 8px; }
+  #scale span:nth-of-type(even) { display: none; }   /* every other slider label, so they don't collide */
+  .tw-dock { bottom: 14px; gap: 10px; width: calc(100% - 16px); }
+  .tw-actions { flex-wrap: nowrap; gap: 6px; }
+  .tw-action { font-size: 12.5px; padding: 8px 11px; gap: 5px; white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

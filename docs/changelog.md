@@ -80,3 +80,6 @@ time-picked crossfade (sounded like overlap) → **re-spliced at a musically mat
   wide strokes), dots drawn from pre-rendered sprites, video clock interpolated between audio
   time reports, fewer per-frame page updates, music syncs if it loads after Play.
   Applied to the original lesson and the shared engine.
+- Works on every screen size: no sideways scrolling; dots scale down only on narrow screens
+  (desktop unchanged); phone layout with compact labels, 100 dots per group, a 3-line caption
+  that follows the narrator, thinner slider labels and a one-row dock. Original lesson + engine.
