@@ -563,6 +563,7 @@ function init(data, story) {
   // One box per named row x run of adjacent columns. A single box glides from one
   // spot to the next (it reads like a pointer); otherwise boxes fade in and out.
   const ACCENT = css("--tw-accent");
+  const GLOW = [[14, 0.03], [9, 0.05], [5, 0.085]];   // [line width, alpha]: a cheap stand-in for a blurred glow
   let boxes = [], focusKey = "null", outline = false;   // outline: only while the narrator explains the layout
   function specsFor(f) {
     if (!f || (!f.rows && !f.cols)) return [];
@@ -630,8 +631,10 @@ function init(data, story) {
       if (pass === "fill") {
         ctx.globalAlpha = b.a * 0.07; ctx.fillStyle = ACCENT; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
       } else {
-        ctx.globalAlpha = b.a; ctx.strokeStyle = ACCENT; ctx.lineWidth = 2;
-        ctx.shadowColor = "rgba(0, 113, 227, 0.45)"; ctx.shadowBlur = 12;
+        // soft glow from a few wide, faint strokes (shadowBlur is very slow in Safari)
+        ctx.strokeStyle = ACCENT;
+        GLOW.forEach(([w, a]) => { ctx.globalAlpha = b.a * a; ctx.lineWidth = w; ctx.strokeRect(x0, y0, x1 - x0, y1 - y0); });
+        ctx.globalAlpha = b.a; ctx.lineWidth = 2;
         ctx.strokeRect(x0, y0, x1 - x0, y1 - y0);
       }
       ctx.restore();
@@ -739,14 +742,15 @@ function init(data, story) {
       const pt = v => [(1 - v) ** 2 * s0.x + 2 * (1 - v) * v * cx + v * v * g.x, (1 - v) ** 2 * s0.y + 2 * (1 - v) * v * cy + v * v * g.y];
       ctx.save();
       ctx.lineCap = "round"; ctx.strokeStyle = ACCENT;
-      ctx.globalAlpha = connA * (0.8 + 0.2 * glowA);
-      ctx.lineWidth = 2 + 1.2 * glowA;
-      ctx.shadowColor = "rgba(0, 113, 227, 0.5)"; ctx.shadowBlur = 3 + 12 * glowA;
       ctx.beginPath();
       const steps = 60, end = Math.max(1, Math.round(steps * u));
       for (let i = 0; i <= end; i++) { const [x, y] = pt(i / steps); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      // glow: wide faint strokes under the line (grows with glowA), instead of shadowBlur
+      const gw = 0.35 + 0.65 * glowA;
+      [[5 + 12 * glowA, 0.05], [3.5 + 6 * glowA, 0.09]].forEach(([w, a]) => { ctx.globalAlpha = connA * a * gw * 1.6; ctx.lineWidth = w; ctx.stroke(); });
+      ctx.globalAlpha = connA * (0.8 + 0.2 * glowA);
+      ctx.lineWidth = 2 + 1.2 * glowA;
       ctx.stroke();
-      ctx.shadowBlur = 0;
       // source dot: solid, with one ripple as the arc leaves it
       ctx.globalAlpha = connA; ctx.fillStyle = stateColor[s0.state];
       ctx.beginPath(); ctx.arc(s0.x, s0.y, R + 1.4, 0, Math.PI * 2); ctx.fill();
@@ -755,9 +759,11 @@ function init(data, story) {
       // the glowing tip while it travels
       if (u < 1) {
         const [hx, hy] = pt(u);
-        ctx.globalAlpha = connA; ctx.fillStyle = "#fff"; ctx.shadowColor = "rgba(0, 113, 227, 0.9)"; ctx.shadowBlur = 10;
-        ctx.beginPath(); ctx.arc(hx, hy, 3.6, 0, Math.PI * 2); ctx.fill();
-        ctx.shadowBlur = 0; ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.stroke();
+        const tg = ctx.createRadialGradient(hx, hy, 2, hx, hy, 13);   // glow around the tip
+        tg.addColorStop(0, "rgba(0, 113, 227, 0.55)"); tg.addColorStop(1, "rgba(0, 113, 227, 0)");
+        ctx.globalAlpha = connA; ctx.fillStyle = tg; ctx.beginPath(); ctx.arc(hx, hy, 13, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(hx, hy, 3.6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.stroke();
       } else {
         // landed: a soft pulse on the grandparent dot
         const since = age - ARC_MS;
@@ -800,14 +806,31 @@ function init(data, story) {
     } else {
       ctx.beginPath(); ctx.moveTo(x + R + 4, y - R - 2); ctx.lineTo(tx, ty + 11); ctx.stroke();
     }
-    ctx.shadowColor = "rgba(0,0,0,.12)"; ctx.shadowBlur = 10; ctx.fillStyle = "#fff";
-    ctx.fillRect(tx, ty - 11, tw, 24);
-    ctx.shadowBlur = 0; ctx.strokeRect(tx, ty - 11, tw, 24);
+    // solid white tag with the blue outline: it pops in fully opaque (never see-through)
+    ctx.globalAlpha = Math.min(1, pulseA * 3);
+    ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(tx - 1, ty - 9, tw + 2, 25);   // faint lift
+    ctx.fillStyle = "#fff"; ctx.fillRect(tx, ty - 11, tw, 24);
+    ctx.strokeRect(tx, ty - 11, tw, 24);
     ctx.fillStyle = INK; ctx.textAlign = "left"; ctx.textBaseline = "middle";
     ctx.fillText(label, tx + 10, ty + 1);
     ctx.restore();
   }
 
+  // Pre-rendered dots (fill + darker rim) per color, at screen resolution: drawing 1,400
+  // vector circles every frame is slow in some browsers. Same look as the vector version.
+  let sprites = null;
+  function makeSprites(dpr) {
+    const mk = (rad, lw, rimA) => states.map((s, i) => {
+      const size = Math.ceil(2 * (rad + lw) + 2), c = document.createElement("canvas");
+      c.width = c.height = Math.round(size * dpr);
+      const g = c.getContext("2d"); g.scale(dpr, dpr);
+      g.beginPath(); g.arc(size / 2, size / 2, rad, 0, Math.PI * 2);
+      g.fillStyle = stateColor[i]; g.fill();
+      g.globalAlpha = rimA; g.lineWidth = lw; g.strokeStyle = stateEdge[i]; g.stroke();
+      return { c, size, half: size / 2 };
+    });
+    sprites = { dpr, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7, 1.3, 1) };
+  }
   const counts = d3.range(G).map(() => new Array(states.length).fill(0));
   let hovered = null;
   function draw() {
@@ -864,7 +887,15 @@ function init(data, story) {
         ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx, cy, rr, 0, Math.PI * 2); ctx.fill();
       }
     }
+    const dpr = window.devicePixelRatio || 1;
+    if (!sprites || sprites.dpr !== dpr) makeSprites(dpr);
     nodes.forEach(n => {
+      if (n !== hovered && (n.b < 0.02 || n.b > 0.98)) {   // the common case: a ready-made sprite
+        const sp = (n.b > 0.98 ? sprites.focus : sprites.base)[n.state];
+        ctx.globalAlpha = n.a;
+        ctx.drawImage(sp.c, Math.round((n.x - sp.half) * dpr) / dpr, Math.round((n.y - sp.half) * dpr) / dpr, sp.size, sp.size);
+        return;
+      }
       ctx.globalAlpha = n.a;
       const rad = n === hovered ? R + 2 : R + 0.7 * n.b;
       ctx.beginPath(); ctx.arc(n.x, n.y, rad, 0, Math.PI * 2);
@@ -1010,6 +1041,7 @@ function init(data, story) {
   const music = new Audio();
   music.loop = true; music.volume = 0; music.preload = "auto";
   fetch("narration/music.m4a", { cache: "no-cache" }).then(r => r.blob()).then(b => { music.src = URL.createObjectURL(b); });
+  music.addEventListener("loadedmetadata", () => { if (vPlaying && musicTail == null) syncMusic(vt()); });
   let musicTail = null;
   function syncMusic(t) { if (music.duration) music.currentTime = t % music.duration; }
   function stepMusic(now) {
@@ -1031,7 +1063,19 @@ function init(data, story) {
   Object.entries(story.terms).forEach(([id, phrases]) => phrases.forEach(p => termHue[p] = color(id)));
   const norm = w => w.toLowerCase().replace(/[^a-z\-']/g, "");
 
-  function vt() { return Math.min(audio.currentTime, TOTAL); }
+  // Video time. Some browsers report audio time in coarse steps, which makes the clock and
+  // dots move in small jerks, so between reports we advance it with the frame clock.
+  const vClock = { a: -1, at: 0, last: 0 };
+  function vt() {
+    const a = audio.currentTime;
+    if (!vPlaying || audio.paused || audio.seeking || audio.readyState < 3) { vClock.a = -1; vClock.last = a; return Math.min(a, TOTAL); }
+    const now = performance.now();
+    if (a !== vClock.a) { vClock.a = a; vClock.at = now; }
+    let t = a + Math.min(0.3, (now - vClock.at) / 1000) * audio.playbackRate;
+    if (t < vClock.last && vClock.last - t < 0.3) t = vClock.last;   // never step backwards by a hair
+    vClock.last = t;
+    return Math.min(t, TOTAL);
+  }
   function syncPlayBtn() { $("vplay").innerHTML = vPlaying ? ICON_PAUSE : ICON_PLAY; $("vplay").setAttribute("aria-label", vPlaying ? "Pause video" : "Play video"); }
   function play() {
     if (ended) { ended = false; seek(0); }
@@ -1107,9 +1151,10 @@ function init(data, story) {
     return clockAt(t);
   }
   let shownMinute = 0;
+  let capSpans = [], capSaid = 0;   // caption words, and how many are marked "said"
   function renderCaption(i) {
     const cap = $("vcap");
-    if (i < 0) { cap.innerHTML = ""; return; }
+    if (i < 0) { cap.innerHTML = ""; capSpans = []; capSaid = 0; return; }
     const words = scenes[i].words;
     const hue = new Array(words.length).fill(null);
     Object.entries(termHue).forEach(([phrase, c]) => {
@@ -1118,6 +1163,7 @@ function init(data, story) {
         if (p.every((w, j) => norm(words[k + j].w).replace(/'s$/, "") === w)) for (let j = 0; j < p.length; j++) hue[k + j] = c;
     });
     cap.innerHTML = words.map((w, k) => `<span data-t="${w.t}"${hue[k] ? ` class="term" style="--hue:${hue[k]}"` : ""}>${w.w}</span>`).join(" ");
+    capSpans = [...cap.querySelectorAll("span")].map(el => ({ el, t: +el.dataset.t })); capSaid = 0;
     cap.classList.remove("enter"); void cap.offsetWidth; cap.classList.add("enter");
   }
   function sceneAt(t) { let i = 0; scenes.forEach((s, k) => { if (s.start <= t) i = k; }); return i; }
@@ -1160,9 +1206,12 @@ function init(data, story) {
     }
     const sc = scenes[sceneI];
     while (beatI + 1 < sc.beats.length && sc.beats[beatI + 1].t <= t) { beatI++; applyCue(sc.beats[beatI].cue, true); }
-    document.querySelectorAll("#vcap span").forEach(s => s.classList.toggle("said", +s.dataset.t <= t + 0.02));
-    $("vscrub").value = t / TOTAL * 1000; $("vscrub").style.setProperty("--fill", (t / TOTAL * 100) + "%");
-    $("vtime").textContent = `${fmtSec(t)} / ${fmtSec(TOTAL)}`;
+    // only touch the page when something actually changes (cheaper every frame)
+    let said = 0; while (said < capSpans.length && capSpans[said].t <= t + 0.02) said++;
+    if (said !== capSaid) { capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said; }
+    const sv = Math.round(t / TOTAL * 1000);
+    if (sv !== tickVideo.sv) { tickVideo.sv = sv; $("vscrub").value = sv; $("vscrub").style.setProperty("--fill", (sv / 10) + "%"); }
+    setText("vtime", `${fmtSec(t)} / ${fmtSec(TOTAL)}`);
   }
   $("end-explore").onclick = () => setMode("explore");
   $("end-replay").onclick = () => { audio.currentTime = 0; seek(0); play(); };
@@ -1238,6 +1287,8 @@ function init(data, story) {
   });
 
   // ───────────── main loop ─────────────
+  const textNow = {};
+  function setText(id, s) { if (textNow[id] !== s) { textNow[id] = s; $(id).textContent = s; } }
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(now - last, 100); last = now;
@@ -1256,11 +1307,14 @@ function init(data, story) {
       minute += speed * dt / 1000;
       if (minute >= 1440) setMinute(0); else updateStates();
     }
-    if (mode !== "video") { $("scrub").value = Math.floor(minute); $("scrub").style.setProperty("--fill", (minute / 1440 * 100) + "%"); markScale(minute); }
+    if (mode !== "video") {
+      const m10 = Math.round(minute * 10);
+      if (m10 !== frame.m10) { frame.m10 = m10; $("scrub").value = Math.floor(minute); $("scrub").style.setProperty("--fill", (minute / 1440 * 100) + "%"); markScale(minute); }
+    }
     stepMusic(now);
     move(dt);
     if (view === "sim") draw();
-    $("clock").textContent = fmtClock(mode === "video" ? shownMinute : minute);
+    setText("clock", fmtClock(mode === "video" ? shownMinute : minute));
     requestAnimationFrame(frame);
   }
   window.addEventListener("resize", () => { layout(); if (view === "chart") drawLines(); });

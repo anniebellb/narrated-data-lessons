@@ -135,6 +135,20 @@ All emphasis uses the accent blue unless it's a group's own colour. **Pulses are
 General motion rules: everything eases (no snaps); exits are faster than entrances;
 effects only fire during natural playback (seeking cancels them).
 
+**Tags** ("1 person", "Someone's grandparent") are **solid white** with the blue outline:
+they pop in fully opaque and never look see-through while fading.
+
+**Smooth on every browser** (it looked fine locally but was janky for viewers):
+- **No `shadowBlur` in anything drawn every frame.** It's very slow in Safari. Fake glows
+  with a few wide, faint strokes (boxes, arcs) or a small radial gradient (arc tip).
+- **Draw repeated marks from pre-rendered sprites** (one small canvas per colour at screen
+  resolution, positions snapped to device pixels). Vector-draw only marks mid-transition or hovered.
+- **Interpolate the video clock** between audio time reports (some browsers report coarse
+  steps): advance with the frame clock, re-anchor on each report, never step backwards.
+- **Only touch the page when something changed**: cache caption spans, skip identical
+  text/slider writes.
+- Test on the live host, not just locally (network, caching), and in Safari when possible.
+
 ## 7. Explore tab
 
 - Clock **centered** at top with Pause/Slow/Medium/Fast **centered under it**, small.

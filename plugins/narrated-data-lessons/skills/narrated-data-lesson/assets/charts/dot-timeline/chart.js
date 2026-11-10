@@ -20,6 +20,20 @@ export async function createChart({ mount, data, lesson, api }) {
   const grey = new Set(cfg.grey || []);
   const labelHue = Object.fromEntries(ROWS.map(id => [id, grey.has(id) ? d3.color(colorOf(id)).darker(1.2).formatHex() : colorOf(id)]));
   const DOTS = cfg.dots || 200, R = cfg.dotRadius || 2.6, DIM = 0.07;
+  // Pre-rendered dots (fill + darker rim) per colour at screen resolution: 1,400 vector
+  // circles a frame is slow in some browsers (Safari). Looks the same as the vector dots.
+  let sprites = null;
+  function makeSprites(dpr) {
+    const mk = (rad, lw, rimA) => stateColor.map((col, i) => {
+      const size = Math.ceil(2 * (rad + lw) + 2), c = document.createElement("canvas");
+      c.width = c.height = Math.round(size * dpr);
+      const g = c.getContext("2d"); g.scale(dpr, dpr);
+      g.beginPath(); g.arc(size / 2, size / 2, rad, 0, Math.PI * 2); g.fillStyle = col; g.fill();
+      g.globalAlpha = rimA; g.lineWidth = lw; g.strokeStyle = stateEdge[i]; g.stroke();
+      return { c, size, half: size / 2 };
+    });
+    sprites = { dpr, base: mk(R, 0.8, 0.45), focus: mk(R + 0.7, 1.3, 1) };
+  }
   const SP = (2 * R + 1.1) * 0.56;
   const STAT = cfg.headerStat;                                          // {state, suffix}
   const SOCIAL = cfg.social || [];
@@ -183,8 +197,15 @@ export async function createChart({ mount, data, lesson, api }) {
       const c = cells.get(h.g * 100 + h.s); if (!c || !c.length) return;
       fx.halo(ctx, d3.mean(c, n => n.x), d3.mean(c, n => n.y), SP * Math.sqrt(c.length) + R, stateColor[h.s], Math.sin(Math.PI * u), 12 * u);
     });
+    const dpr = window.devicePixelRatio || 1;
+    if (!sprites || sprites.dpr !== dpr) makeSprites(dpr);
     nodes.forEach(n => {
       ctx.globalAlpha = n.a;
+      if (n !== hovered && (n.b < 0.02 || n.b > 0.98)) {   // common case: a ready-made sprite, snapped to device pixels
+        const sp = (n.b > 0.98 ? sprites.focus : sprites.base)[n.state];
+        ctx.drawImage(sp.c, Math.round((n.x - sp.half) * dpr) / dpr, Math.round((n.y - sp.half) * dpr) / dpr, sp.size, sp.size);
+        return;
+      }
       const rad = n === hovered ? R + 2 : R + 0.7 * n.b;
       ctx.beginPath(); ctx.arc(n.x, n.y, rad, 0, Math.PI * 2); ctx.fillStyle = stateColor[n.state]; ctx.fill();
       ctx.lineWidth = 0.8 + 0.5 * n.b; ctx.strokeStyle = stateEdge[n.state]; ctx.globalAlpha = n.a * (0.45 + 0.55 * n.b); ctx.stroke();

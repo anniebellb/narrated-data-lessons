@@ -10,6 +10,7 @@ export const bump = (t0, delay, dur, now) => {
   const u = (now - t0 - delay) / dur;
   return u > 0 && u < 1 ? Math.sin(Math.PI * u) : 0;
 };
+const GLOW = [[14, 0.03], [9, 0.05], [5, 0.085]];   // [line width, alpha]: a cheap stand-in for a blurred glow
 const rgb = c => { const x = d3.color(c); return `${x.r},${x.g},${x.b}`; };
 
 /** Square highlight box: 2px accent stroke, soft glow, faint tint. pass = "fill" | "stroke". */
@@ -19,8 +20,10 @@ export function box(ctx, [x0, y0, x1, y1], alpha, pass) {
   if (pass === "fill") {
     ctx.globalAlpha = alpha * 0.07; ctx.fillStyle = ACCENT; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
   } else {
-    ctx.globalAlpha = alpha; ctx.strokeStyle = ACCENT; ctx.lineWidth = 2;
-    ctx.shadowColor = "rgba(0, 113, 227, 0.45)"; ctx.shadowBlur = 12;
+    // soft glow from a few wide, faint strokes (shadowBlur is very slow in Safari: never use it per frame)
+    ctx.strokeStyle = ACCENT;
+    GLOW.forEach(([w, a]) => { ctx.globalAlpha = alpha * a; ctx.lineWidth = w; ctx.strokeRect(x0, y0, x1 - x0, y1 - y0); });
+    ctx.globalAlpha = alpha; ctx.lineWidth = 2;
     ctx.strokeRect(x0, y0, x1 - x0, y1 - y0);
   }
   ctx.restore();
@@ -63,7 +66,7 @@ export function ring(ctx, x, y, r0, grow, alpha, color = ACCENT) {
   ctx.beginPath(); ctx.arc(x, y, r0 + grow, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
 }
 
-/** Small white tag with dark text and accent border. place: "right" | "above". No leader line for "above". */
+/** Small solid-white tag with dark text and accent border. place: "right" | "above". No leader line for "above". */
 export function tag(ctx, x, y, label, alpha, place = "right", font = "system-ui", ink = "#1d1d1f", bounds = null) {
   if (alpha < 0.01) return;
   ctx.save(); ctx.globalAlpha = alpha;
@@ -74,8 +77,9 @@ export function tag(ctx, x, y, label, alpha, place = "right", font = "system-ui"
   if (bounds) tx = Math.max(bounds[0] + 4, Math.min(bounds[1] - tw - 4, tx));
   ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5;
   if (place === "right") { ctx.beginPath(); ctx.moveTo(x + 6, y - 4); ctx.lineTo(tx, ty + 11); ctx.stroke(); }
-  ctx.shadowColor = "rgba(0,0,0,.12)"; ctx.shadowBlur = 10; ctx.fillStyle = "#fff"; ctx.fillRect(tx, ty - 11, tw, 24);
-  ctx.shadowBlur = 0; ctx.strokeRect(tx, ty - 11, tw, 24);
+  ctx.globalAlpha = Math.min(1, alpha * 3);   // pops in fully opaque: the tag is never see-through
+  ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(tx - 1, ty - 9, tw + 2, 25);   // faint lift
+  ctx.fillStyle = "#fff"; ctx.fillRect(tx, ty - 11, tw, 24); ctx.strokeRect(tx, ty - 11, tw, 24);
   ctx.fillStyle = ink; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(label, tx + 10, ty + 1);
   ctx.restore();
 }
@@ -108,15 +112,17 @@ export function arc(ctx, sx, sy, gx, gy, u, alpha, glow = 0, dip = 1) {
   if (alpha < 0.01 || u <= 0) return;
   const dx = Math.abs(gx - sx), cx = (gx + sx) / 2, cy = (dip > 0 ? Math.max(gy, sy) : Math.min(gy, sy)) + dip * (34 + dx * 0.1);
   const pt = v => [(1 - v) ** 2 * sx + 2 * (1 - v) * v * cx + v * v * gx, (1 - v) ** 2 * sy + 2 * (1 - v) * v * cy + v * v * gy];
-  ctx.save(); ctx.lineCap = "round"; ctx.strokeStyle = ACCENT; ctx.globalAlpha = alpha * (0.8 + 0.2 * glow);
-  ctx.lineWidth = 2 + 1.2 * glow; ctx.shadowColor = "rgba(0, 113, 227, 0.5)"; ctx.shadowBlur = 3 + 12 * glow;
+  ctx.save(); ctx.lineCap = "round"; ctx.strokeStyle = ACCENT;
   ctx.beginPath(); const steps = 60, end = Math.max(1, Math.round(steps * u));
   for (let i = 0; i <= end; i++) { const [x, y] = pt(i / steps); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
-  ctx.stroke(); ctx.shadowBlur = 0;
+  const gw = 0.35 + 0.65 * glow;   // glow: wide faint strokes under the line (no shadowBlur)
+  [[5 + 12 * glow, 0.05], [3.5 + 6 * glow, 0.09]].forEach(([w, a]) => { ctx.globalAlpha = alpha * a * gw * 1.6; ctx.lineWidth = w; ctx.stroke(); });
+  ctx.globalAlpha = alpha * (0.8 + 0.2 * glow); ctx.lineWidth = 2 + 1.2 * glow; ctx.stroke();
   if (u < 1) {
-    const [hx, hy] = pt(u);
-    ctx.globalAlpha = alpha; ctx.fillStyle = "#fff"; ctx.shadowColor = "rgba(0, 113, 227, 0.9)"; ctx.shadowBlur = 10;
-    ctx.beginPath(); ctx.arc(hx, hy, 3.6, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.stroke();
+    const [hx, hy] = pt(u), tg = ctx.createRadialGradient(hx, hy, 2, hx, hy, 13);
+    tg.addColorStop(0, "rgba(0, 113, 227, 0.55)"); tg.addColorStop(1, "rgba(0, 113, 227, 0)");
+    ctx.globalAlpha = alpha; ctx.fillStyle = tg; ctx.beginPath(); ctx.arc(hx, hy, 13, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(hx, hy, 3.6, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.stroke();
   }
   ctx.restore();
 }

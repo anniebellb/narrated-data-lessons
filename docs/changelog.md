@@ -73,3 +73,10 @@ time-picked crossfade (sounded like overlap) → **re-spliced at a musically mat
 - Skill: data profiler with plain-language fit verdicts (link/CSV/Excel/JSON/PDF), three
   user checkpoints, `check_lesson.py` self-check (data format, stale timing, narrated numbers
   vs `facts.json`, audio lengths), beginner walkthroughs, starter lessons per chart type.
+
+## Live-site polish
+- Tags ("1 person", "Someone's grandparent") are solid white with the blue outline.
+- Smoother playback for viewers: removed per-frame canvas blur (glows now drawn with faint
+  wide strokes), dots drawn from pre-rendered sprites, video clock interpolated between audio
+  time reports, fewer per-frame page updates, music syncs if it loads after Play.
+  Applied to the original lesson and the shared engine.

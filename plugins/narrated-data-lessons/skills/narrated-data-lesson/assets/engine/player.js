@@ -182,6 +182,7 @@ export async function runLesson(lessonUrl, assetsBase) {
   const MUSIC_VOL = lesson.musicVolume ?? 0.045, MUSIC_IN = 1.5, MUSIC_HOLD = 1.5, MUSIC_FADE = 4;
   const music = new Audio(); music.loop = true; music.volume = 0; music.preload = "auto";
   if (lesson.music) fetch(lesson.music, nc).then(r => r.blob()).then(b => { music.src = URL.createObjectURL(b); }).catch(() => {});
+  music.addEventListener("loadedmetadata", () => { if (vPlaying && musicTail == null) syncMusic(vt()); });   // joins at the right spot if it loads after Play
   let musicTail = null;
   const syncMusic = t => { if (music.duration) music.currentTime = t % music.duration; };
   function stepMusic(now) {
@@ -193,8 +194,24 @@ export async function runLesson(lessonUrl, assetsBase) {
     } else if (vPlaying) music.volume = MUSIC_VOL * Math.max(0, Math.min(1, vt() / MUSIC_IN));
   }
 
+  const textNow = {};
+  const setText = (id, s) => { if (textNow[id] !== s) { textNow[id] = s; $(id).textContent = s; } };
+  let lastSv = -1, lastPv = -1;
   let vPlaying = false, sceneI = -1, beatI = -1, ended = false, endAt = 0;
-  const vt = () => { if (!hasAudio && vPlaying) virtualT = (performance.now() - virtStart) / 1000; return Math.min(hasAudio ? audio.currentTime : virtualT, TOTAL); };
+  // Video time. Some browsers report audio time in coarse steps, which makes the chart move
+  // in small jerks, so between reports we advance it with the frame clock (never backwards).
+  const vClock = { a: -1, at: 0, last: 0 };
+  const vt = () => {
+    if (!hasAudio) { if (vPlaying) virtualT = (performance.now() - virtStart) / 1000; return Math.min(virtualT, TOTAL); }
+    const a = audio.currentTime;
+    if (!vPlaying || audio.paused || audio.seeking || audio.readyState < 3) { vClock.a = -1; vClock.last = a; return Math.min(a, TOTAL); }
+    const now = performance.now();
+    if (a !== vClock.a) { vClock.a = a; vClock.at = now; }
+    let t = a + Math.min(0.3, (now - vClock.at) / 1000) * audio.playbackRate;
+    if (t < vClock.last && vClock.last - t < 0.3) t = vClock.last;
+    vClock.last = t;
+    return Math.min(t, TOTAL);
+  };
   const narrationOver = () => (hasAudio ? audio.ended : virtualT >= TOTAL - 1.5);
   $("vlen").textContent = fmtSec(TOTAL);
   $("vticks").innerHTML = scenes.slice(1).map(s => `<i style="left:${s.start / TOTAL * 100}%"></i>`).join("");
@@ -261,9 +278,10 @@ export async function runLesson(lessonUrl, assetsBase) {
     const own = {}; Object.keys(c).forEach(k => { if (!ENGINE_KEYS.has(k)) own[k] = c[k]; });
     chart.apply?.(own, { natural });
   }
+  let capSpans = [], capSaid = 0;   // caption words, and how many are marked "said"
   function renderCaption(i) {
     const cap = $("vcap");
-    if (i < 0) { cap.innerHTML = ""; return; }
+    if (i < 0) { cap.innerHTML = ""; capSpans = []; capSaid = 0; return; }
     const words = scenes[i].words, hue = new Array(words.length).fill(null);
     Object.entries(termHue).forEach(([phrase, c]) => {
       const p = phrase.split(" ");
@@ -271,6 +289,7 @@ export async function runLesson(lessonUrl, assetsBase) {
         if (p.every((w, j) => norm(words[k + j].w).replace(/'s$/, "") === w)) for (let j = 0; j < p.length; j++) hue[k + j] = c;
     });
     cap.innerHTML = words.map((w, k) => `<span data-t="${w.t}"${hue[k] ? ` class="term" style="--hue:${hue[k]}"` : ""}>${w.w}</span>`).join(" ");
+    capSpans = [...cap.querySelectorAll("span")].map(el => ({ el, t: +el.dataset.t })); capSaid = 0;
     cap.classList.remove("enter"); void cap.offsetWidth; cap.classList.add("enter");
   }
   const sceneAt = t => { let i = 0; scenes.forEach((s, k) => { if (s.start <= t) i = k; }); return i; };
@@ -309,9 +328,12 @@ export async function runLesson(lessonUrl, assetsBase) {
     }
     const sc = scenes[sceneI];
     while (beatI + 1 < sc.beats.length && sc.beats[beatI + 1].t <= t) { beatI++; applyCue(sc.beats[beatI].cue, true); }
-    document.querySelectorAll("#vcap span").forEach(s => s.classList.toggle("said", +s.dataset.t <= t + 0.02));
-    $("vscrub").value = t / TOTAL * 1000; $("vscrub").style.setProperty("--fill", (t / TOTAL * 100) + "%");
-    $("vtime").textContent = `${fmtSec(t)} / ${fmtSec(TOTAL)}`;
+    // only touch the page when something changes (cheaper every frame)
+    let said = 0; while (said < capSpans.length && capSpans[said].t <= t + 0.02) said++;
+    if (said !== capSaid) { capSpans.forEach((s, k) => { if ((k < said) !== (k < capSaid)) s.el.classList.toggle("said", k < said); }); capSaid = said; }
+    const sv = Math.round(t / TOTAL * 1000);
+    if (sv !== lastSv) { lastSv = sv; $("vscrub").value = sv; $("vscrub").style.setProperty("--fill", (sv / 10) + "%"); }
+    setText("vtime", `${fmtSec(t)} / ${fmtSec(TOTAL)}`);
   }
   $("end-explore").onclick = () => setMode("explore");
   $("end-replay").onclick = () => { setTime(0); seek(0); play(); };
@@ -338,10 +360,13 @@ export async function runLesson(lessonUrl, assetsBase) {
       else chart.setPos(pos, {});
       display = pos;
     } else display = pos;
-    if (P && mode !== "video") { $("scrub").value = (pos - P.min) / span * 1000; $("scrub").style.setProperty("--fill", ((pos - P.min) / span * 100) + "%"); markScale(pos); }
+    if (P && mode !== "video") {
+      const sv = Math.round((pos - P.min) / span * 1000);
+      if (sv !== lastPv) { lastPv = sv; $("scrub").value = sv; $("scrub").style.setProperty("--fill", (sv / 10) + "%"); markScale(pos); }
+    }
     stepMusic(now);
     chart.frame(dt, now);
-    if (P) $("clock").textContent = P.format(display);
+    if (P) setText("clock", P.format(display));
     requestAnimationFrame(frame);
   }
   window.addEventListener("resize", () => chart.resize?.());
