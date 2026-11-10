@@ -1,0 +1,568 @@
+{
+  "_clock": "A cue's `clock` (minutes after 4:00am) is a keyframe: at the moment that cue's word is spoken, the simulation shows exactly that time. Between keyframes the clock moves in a straight line (eased when it sweeps fast); after the last one it holds.",
+  "terms": {
+    "alone": [
+      "alone",
+      "no one"
+    ],
+    "partner": [
+      "partner"
+    ],
+    "children": [
+      "children"
+    ],
+    "family": [
+      "other family"
+    ],
+    "friends": [
+      "friends"
+    ],
+    "others": [
+      "other people"
+    ],
+    "sleep": [
+      "asleep",
+      "sleep"
+    ],
+    "work": [
+      "work"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "title": "Intro",
+      "say": "We all get the same twenty-four hours. But who we spend them with... changes a lot over a lifetime. Let's take a look.",
+      "cue": {
+        "view": "sim",
+        "clock": 0,
+        "focus": {
+          "rows": []
+        },
+        "outline": false,
+        "pulse": false
+      },
+      "beats": [
+        {
+          "at": "twenty-four hours",
+          "cue": {
+            "spinClock": true
+          }
+        },
+        {
+          "at": "who we spend",
+          "cue": {
+            "rowCascade": true
+          }
+        },
+        {
+          "at": "changes a lot",
+          "cue": {
+            "colSweep": true
+          }
+        },
+        {
+          "at": "let's take a look",
+          "cue": {
+            "focus": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "meet",
+      "title": "How to read the chart",
+      "say": "Every dot here is one American, drawn from a national survey of how people spend their day. Each column is an age group, from teenagers on the left, to people over seventy-five on the right.",
+      "cue": {
+        "view": "sim",
+        "clock": 0,
+        "focus": null,
+        "outline": true,
+        "pulse": false
+      },
+      "beats": [
+        {
+          "at": "every dot",
+          "cue": {
+            "pulse": true
+          }
+        },
+        {
+          "at": "each column",
+          "cue": {
+            "focus": {
+              "cols": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "header": true
+            },
+            "pulse": false
+          }
+        },
+        {
+          "at": "teenagers",
+          "cue": {
+            "focus": {
+              "cols": [
+                0
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "seventy-five",
+          "cue": {
+            "focus": {
+              "cols": [
+                6
+              ],
+              "header": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "rows",
+      "title": "Who we're with",
+      "say": "Each row shows who they're with. Alone, with a partner, with their children, other family, friends, or other people. Sleep and work are gray, because the survey doesn't ask who's there.",
+      "cue": {
+        "focus": null,
+        "outline": true
+      },
+      "beats": [
+        {
+          "at": "alone",
+          "cue": {
+            "focus": {
+              "rows": [
+                "alone"
+              ]
+            }
+          }
+        },
+        {
+          "at": "partner",
+          "cue": {
+            "focus": {
+              "rows": [
+                "partner"
+              ]
+            }
+          }
+        },
+        {
+          "at": "children",
+          "cue": {
+            "focus": {
+              "rows": [
+                "children"
+              ]
+            }
+          }
+        },
+        {
+          "at": "other family",
+          "cue": {
+            "focus": {
+              "rows": [
+                "family"
+              ]
+            }
+          }
+        },
+        {
+          "at": "friends",
+          "cue": {
+            "focus": {
+              "rows": [
+                "friends"
+              ]
+            }
+          }
+        },
+        {
+          "at": "other people",
+          "cue": {
+            "focus": {
+              "rows": [
+                "others"
+              ]
+            }
+          }
+        },
+        {
+          "at": "sleep and work",
+          "cue": {
+            "focus": {
+              "rows": [
+                "sleep"
+              ]
+            }
+          }
+        },
+        {
+          "at": "gray",
+          "cue": {
+            "focus": {
+              "rows": [
+                "work"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "morning",
+      "title": "4am: almost everyone asleep",
+      "say": "It's four in the morning, and almost everyone is asleep. Now, watch the day begin.",
+      "cue": {
+        "clock": 0,
+        "focus": {
+          "rows": [
+            "sleep"
+          ]
+        },
+        "outline": false
+      },
+      "beats": [
+        {
+          "at": "four in the morning",
+          "cue": {
+            "clockCallout": true
+          }
+        },
+        {
+          "at": "watch",
+          "cue": {
+            "clock": 0,
+            "focus": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "title": "Mid-morning: work and school",
+      "say": "By mid-morning, nearly half of adults under fifty-five are at work or in class. Past sixty-five, almost no one is. Instead, about half of them spend the morning alone.",
+      "cue": {
+        "focus": null
+      },
+      "beats": [
+        {
+          "at": "mid-morning",
+          "cue": {
+            "clock": 390,
+            "focus": {
+              "rows": [
+                "work"
+              ]
+            }
+          }
+        },
+        {
+          "at": "under fifty-five",
+          "cue": {
+            "focus": {
+              "rows": [
+                "work"
+              ],
+              "cols": [
+                1,
+                2,
+                3
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "past sixty-five",
+          "cue": {
+            "focus": {
+              "rows": [
+                "work"
+              ],
+              "cols": [
+                5,
+                6
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "alone",
+          "cue": {
+            "clock": 415,
+            "focus": {
+              "rows": [
+                "alone"
+              ],
+              "cols": [
+                5,
+                6
+              ],
+              "header": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "evening",
+      "title": "7pm: evenings at home",
+      "say": "Now jump ahead to seven in the evening. People in their thirties and forties are most often with their children. Past sixty-five, it's a partner... or no one at all.",
+      "cue": {
+        "clock": 420,
+        "focus": null
+      },
+      "beats": [
+        {
+          "at": "seven in the evening",
+          "cue": {
+            "clock": 900
+          }
+        },
+        {
+          "at": "thirties and forties",
+          "cue": {
+            "focus": {
+              "rows": [
+                "children"
+              ],
+              "cols": [
+                2,
+                3
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "partner",
+          "cue": {
+            "focus": {
+              "rows": [
+                "partner"
+              ],
+              "cols": [
+                5,
+                6
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "no one",
+          "cue": {
+            "clock": 915,
+            "focus": {
+              "rows": [
+                "alone"
+              ],
+              "cols": [
+                5,
+                6
+              ],
+              "header": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "friends",
+      "title": "Fewer friends with age",
+      "say": "Now look at the pink row: friends. Teenagers and people in their early twenties see friends the most. By forty, that time has almost disappeared.",
+      "cue": {
+        "clock": 920,
+        "focus": {
+          "rows": [
+            "friends"
+          ]
+        }
+      },
+      "beats": [
+        {
+          "at": "teenagers",
+          "cue": {
+            "focus": {
+              "rows": [
+                "friends"
+              ],
+              "cols": [
+                0
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "by forty",
+          "cue": {
+            "clock": 940,
+            "focus": {
+              "rows": [
+                "friends"
+              ],
+              "cols": [
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "header": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "total",
+      "title": "Time alone adds up",
+      "say": "Add up every hour of the day, and one pattern stands out. Time alone grows with age, from about five hours a day at twenty, to about eight hours a day at eighty.",
+      "cue": {
+        "view": "chart",
+        "chartFocus": null,
+        "chartMark": null
+      },
+      "beats": [
+        {
+          "at": "time alone",
+          "cue": {
+            "chartFocus": "alone"
+          }
+        },
+        {
+          "at": "five hours",
+          "cue": {
+            "chartFocus": "alone",
+            "chartMark": [
+              20
+            ]
+          }
+        },
+        {
+          "at": "eight hours",
+          "cue": {
+            "chartFocus": "alone",
+            "chartMark": [
+              20,
+              80
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reflect",
+      "title": "Small moments, together",
+      "say": "Experts now call loneliness a public health concern... as serious for our health as smoking. Time alone isn't the same as loneliness... but it's where loneliness can begin. We can't add more hours to the day... but we can choose who we spend them with. A phone call... a shared meal... a short visit. Small moments, together... go a long way.",
+      "cue": {
+        "view": "sim",
+        "clock": 940,
+        "focus": {
+          "rows": [
+            "alone"
+          ]
+        },
+        "outline": false,
+        "pulse": false,
+        "chartFocus": null,
+        "chartMark": null,
+        "connect": 0,
+        "grand": false,
+        "breathe": true
+      },
+      "beats": [
+        {
+          "at": "time alone isn't",
+          "cue": {
+            "grand": true,
+            "breathe": false,
+            "focus": {
+              "rows": [
+                "alone"
+              ],
+              "cols": [
+                6
+              ],
+              "header": true
+            }
+          }
+        },
+        {
+          "at": "a phone call",
+          "cue": {
+            "connect": 1
+          }
+        },
+        {
+          "at": "a shared meal",
+          "cue": {
+            "connect": 2
+          }
+        },
+        {
+          "at": "a short visit",
+          "cue": {
+            "connect": 3
+          }
+        },
+        {
+          "at": "small moments",
+          "cue": {
+            "focus": null,
+            "grand": false,
+            "connect": 0,
+            "glow": false,
+            "clock": 940,
+            "together": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "turn",
+      "title": "Your turn",
+      "say": "Now it's your turn. Click Explore to play any hour of the day yourself, or see the hours add up across a lifetime.",
+      "cue": {
+        "view": "sim",
+        "clock": 940,
+        "focus": null,
+        "chartFocus": null,
+        "chartMark": null,
+        "connect": 0,
+        "glow": false,
+        "grand": false,
+        "breathe": false
+      },
+      "beats": [
+        {
+          "at": "explore",
+          "cue": {
+            "nudge": "explore",
+            "clock": 960
+          }
+        },
+        {
+          "at": "lifetime",
+          "cue": {
+            "clock": 1020
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# raw survey downloads (~1 GB); re-download from BLS (see README)
+data/raw/
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# os
+.DS_Store

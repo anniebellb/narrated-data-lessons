@@ -1,0 +1,1868 @@
+{
+ "_clock": "A cue's `clock` (minutes after 4:00am) is a keyframe: at the moment that cue's word is spoken, the simulation shows exactly that time. Between keyframes the clock moves in a straight line (eased when it sweeps fast); after the last one it holds.",
+ "terms": {
+  "alone": [
+   "alone",
+   "no one"
+  ],
+  "partner": [
+   "partner"
+  ],
+  "children": [
+   "children"
+  ],
+  "family": [
+   "other family"
+  ],
+  "friends": [
+   "friends"
+  ],
+  "others": [
+   "other people"
+  ],
+  "sleep": [
+   "asleep",
+   "sleep"
+  ],
+  "work": [
+   "work"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "say": "We all get the same twenty-four hours. But who we spend them with... changes a lot over a lifetime. Let's take a look.",
+   "cue": {
+    "view": "sim",
+    "clock": 0,
+    "focus": {
+     "rows": []
+    },
+    "outline": false,
+    "pulse": false
+   },
+   "beats": [
+    {
+     "at": "twenty-four hours",
+     "cue": {
+      "spinClock": true
+     },
+     "t": 0.9
+    },
+    {
+     "at": "who we spend",
+     "cue": {
+      "rowCascade": true
+     },
+     "t": 2.8
+    },
+    {
+     "at": "changes a lot",
+     "cue": {
+      "colSweep": true
+     },
+     "t": 3.84
+    },
+    {
+     "at": "let's take a look",
+     "cue": {
+      "focus": null
+     },
+     "t": 6.8
+    }
+   ],
+   "words": [
+    {
+     "w": "We",
+     "t": 0.0
+    },
+    {
+     "w": "all",
+     "t": 0.14
+    },
+    {
+     "w": "get",
+     "t": 0.3
+    },
+    {
+     "w": "the",
+     "t": 0.48
+    },
+    {
+     "w": "same",
+     "t": 0.62
+    },
+    {
+     "w": "twenty-four",
+     "t": 0.9
+    },
+    {
+     "w": "hours.",
+     "t": 1.34
+    },
+    {
+     "w": "But",
+     "t": 2.74
+    },
+    {
+     "w": "who",
+     "t": 2.8
+    },
+    {
+     "w": "we",
+     "t": 2.96
+    },
+    {
+     "w": "spend",
+     "t": 3.12
+    },
+    {
+     "w": "them",
+     "t": 3.38
+    },
+    {
+     "w": "with...",
+     "t": 3.62
+    },
+    {
+     "w": "changes",
+     "t": 3.84
+    },
+    {
+     "w": "a",
+     "t": 4.54
+    },
+    {
+     "w": "lot",
+     "t": 4.9
+    },
+    {
+     "w": "over",
+     "t": 5.2
+    },
+    {
+     "w": "a",
+     "t": 5.58
+    },
+    {
+     "w": "lifetime.",
+     "t": 5.68
+    },
+    {
+     "w": "Let's",
+     "t": 6.8
+    },
+    {
+     "w": "take",
+     "t": 7.0
+    },
+    {
+     "w": "a",
+     "t": 7.14
+    },
+    {
+     "w": "look.",
+     "t": 7.26
+    }
+   ],
+   "start": 0.0,
+   "end": 8.11
+  },
+  {
+   "id": "meet",
+   "title": "How to read the chart",
+   "say": "Every dot here is one American, drawn from a national survey of how people spend their day. Each column is an age group, from teenagers on the left, to people over seventy-five on the right.",
+   "cue": {
+    "view": "sim",
+    "clock": 0,
+    "focus": null,
+    "outline": true,
+    "pulse": false
+   },
+   "beats": [
+    {
+     "at": "every dot",
+     "cue": {
+      "pulse": true
+     },
+     "t": 8.46
+    },
+    {
+     "at": "each column",
+     "cue": {
+      "focus": {
+       "cols": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+       ],
+       "header": true
+      },
+      "pulse": false
+     },
+     "t": 14.82
+    },
+    {
+     "at": "teenagers",
+     "cue": {
+      "focus": {
+       "cols": [
+        0
+       ],
+       "header": true
+      }
+     },
+     "t": 16.76
+    },
+    {
+     "at": "seventy-five",
+     "cue": {
+      "focus": {
+       "cols": [
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 18.86
+    }
+   ],
+   "words": [
+    {
+     "w": "Every",
+     "t": 8.46
+    },
+    {
+     "w": "dot",
+     "t": 8.82
+    },
+    {
+     "w": "here",
+     "t": 9.2
+    },
+    {
+     "w": "is",
+     "t": 9.52
+    },
+    {
+     "w": "one",
+     "t": 9.82
+    },
+    {
+     "w": "American,",
+     "t": 10.14
+    },
+    {
+     "w": "drawn",
+     "t": 11.08
+    },
+    {
+     "w": "from",
+     "t": 11.36
+    },
+    {
+     "w": "a",
+     "t": 11.68
+    },
+    {
+     "w": "national",
+     "t": 11.78
+    },
+    {
+     "w": "survey",
+     "t": 12.02
+    },
+    {
+     "w": "of",
+     "t": 12.6
+    },
+    {
+     "w": "how",
+     "t": 12.84
+    },
+    {
+     "w": "people",
+     "t": 13.02
+    },
+    {
+     "w": "spend",
+     "t": 13.28
+    },
+    {
+     "w": "their",
+     "t": 13.58
+    },
+    {
+     "w": "day.",
+     "t": 13.8
+    },
+    {
+     "w": "Each",
+     "t": 14.82
+    },
+    {
+     "w": "column",
+     "t": 14.88
+    },
+    {
+     "w": "is",
+     "t": 15.24
+    },
+    {
+     "w": "an",
+     "t": 15.62
+    },
+    {
+     "w": "age",
+     "t": 15.7
+    },
+    {
+     "w": "group,",
+     "t": 15.9
+    },
+    {
+     "w": "from",
+     "t": 16.56
+    },
+    {
+     "w": "teenagers",
+     "t": 16.76
+    },
+    {
+     "w": "on",
+     "t": 17.12
+    },
+    {
+     "w": "the",
+     "t": 17.46
+    },
+    {
+     "w": "left,",
+     "t": 17.56
+    },
+    {
+     "w": "to",
+     "t": 17.8
+    },
+    {
+     "w": "people",
+     "t": 18.28
+    },
+    {
+     "w": "over",
+     "t": 18.52
+    },
+    {
+     "w": "seventy-five",
+     "t": 18.86
+    },
+    {
+     "w": "on",
+     "t": 19.24
+    },
+    {
+     "w": "the",
+     "t": 19.9
+    },
+    {
+     "w": "right.",
+     "t": 20.0
+    }
+   ],
+   "start": 8.11,
+   "end": 20.73
+  },
+  {
+   "id": "rows",
+   "title": "Who we're with",
+   "say": "Each row shows who they're with. Alone, with a partner, with their children, other family, friends, or other people. Sleep and work are gray, because the survey doesn't ask who's there.",
+   "cue": {
+    "focus": null,
+    "outline": true
+   },
+   "beats": [
+    {
+     "at": "alone",
+     "cue": {
+      "focus": {
+       "rows": [
+        "alone"
+       ]
+      }
+     },
+     "t": 23.6
+    },
+    {
+     "at": "partner",
+     "cue": {
+      "focus": {
+       "rows": [
+        "partner"
+       ]
+      }
+     },
+     "t": 24.68
+    },
+    {
+     "at": "children",
+     "cue": {
+      "focus": {
+       "rows": [
+        "children"
+       ]
+      }
+     },
+     "t": 25.76
+    },
+    {
+     "at": "other family",
+     "cue": {
+      "focus": {
+       "rows": [
+        "family"
+       ]
+      }
+     },
+     "t": 26.72
+    },
+    {
+     "at": "friends",
+     "cue": {
+      "focus": {
+       "rows": [
+        "friends"
+       ]
+      }
+     },
+     "t": 27.56
+    },
+    {
+     "at": "other people",
+     "cue": {
+      "focus": {
+       "rows": [
+        "others"
+       ]
+      }
+     },
+     "t": 28.28
+    },
+    {
+     "at": "sleep and work",
+     "cue": {
+      "focus": {
+       "rows": [
+        "sleep"
+       ]
+      }
+     },
+     "t": 28.76
+    },
+    {
+     "at": "gray",
+     "cue": {
+      "focus": {
+       "rows": [
+        "work"
+       ]
+      }
+     },
+     "t": 30.46
+    }
+   ],
+   "words": [
+    {
+     "w": "Each",
+     "t": 21.08
+    },
+    {
+     "w": "row",
+     "t": 21.22
+    },
+    {
+     "w": "shows",
+     "t": 21.5
+    },
+    {
+     "w": "who",
+     "t": 21.86
+    },
+    {
+     "w": "they're",
+     "t": 22.36
+    },
+    {
+     "w": "with.",
+     "t": 22.7
+    },
+    {
+     "w": "Alone,",
+     "t": 23.6
+    },
+    {
+     "w": "with",
+     "t": 24.38
+    },
+    {
+     "w": "a",
+     "t": 24.58
+    },
+    {
+     "w": "partner,",
+     "t": 24.68
+    },
+    {
+     "w": "with",
+     "t": 25.52
+    },
+    {
+     "w": "their",
+     "t": 25.62
+    },
+    {
+     "w": "children,",
+     "t": 25.76
+    },
+    {
+     "w": "other",
+     "t": 26.72
+    },
+    {
+     "w": "family,",
+     "t": 26.9
+    },
+    {
+     "w": "friends,",
+     "t": 27.56
+    },
+    {
+     "w": "or",
+     "t": 28.2
+    },
+    {
+     "w": "other",
+     "t": 28.28
+    },
+    {
+     "w": "people.",
+     "t": 28.46
+    },
+    {
+     "w": "Sleep",
+     "t": 28.76
+    },
+    {
+     "w": "and",
+     "t": 29.7
+    },
+    {
+     "w": "work",
+     "t": 29.92
+    },
+    {
+     "w": "are",
+     "t": 30.18
+    },
+    {
+     "w": "gray,",
+     "t": 30.46
+    },
+    {
+     "w": "because",
+     "t": 30.8
+    },
+    {
+     "w": "the",
+     "t": 31.4
+    },
+    {
+     "w": "survey",
+     "t": 31.56
+    },
+    {
+     "w": "doesn't",
+     "t": 31.88
+    },
+    {
+     "w": "ask",
+     "t": 32.24
+    },
+    {
+     "w": "who's",
+     "t": 32.64
+    },
+    {
+     "w": "there.",
+     "t": 33.06
+    }
+   ],
+   "start": 20.73,
+   "end": 34.09
+  },
+  {
+   "id": "morning",
+   "title": "4am: almost everyone asleep",
+   "say": "It's four in the morning, and almost everyone is asleep. Now, watch the day begin.",
+   "cue": {
+    "clock": 0,
+    "focus": {
+     "rows": [
+      "sleep"
+     ]
+    },
+    "outline": false
+   },
+   "beats": [
+    {
+     "at": "four in the morning",
+     "cue": {
+      "clockCallout": true
+     },
+     "t": 34.6
+    },
+    {
+     "at": "watch",
+     "cue": {
+      "clock": 0,
+      "focus": null
+     },
+     "t": 39.02
+    }
+   ],
+   "words": [
+    {
+     "w": "It's",
+     "t": 34.44
+    },
+    {
+     "w": "four",
+     "t": 34.6
+    },
+    {
+     "w": "in",
+     "t": 34.84
+    },
+    {
+     "w": "the",
+     "t": 35.02
+    },
+    {
+     "w": "morning,",
+     "t": 35.1
+    },
+    {
+     "w": "and",
+     "t": 35.36
+    },
+    {
+     "w": "almost",
+     "t": 35.88
+    },
+    {
+     "w": "everyone",
+     "t": 36.18
+    },
+    {
+     "w": "is",
+     "t": 36.76
+    },
+    {
+     "w": "asleep.",
+     "t": 37.2
+    },
+    {
+     "w": "Now,",
+     "t": 38.32
+    },
+    {
+     "w": "watch",
+     "t": 39.02
+    },
+    {
+     "w": "the",
+     "t": 39.3
+    },
+    {
+     "w": "day",
+     "t": 39.56
+    },
+    {
+     "w": "begin.",
+     "t": 39.76
+    }
+   ],
+   "start": 34.09,
+   "end": 40.99
+  },
+  {
+   "id": "work",
+   "title": "Mid-morning: work and school",
+   "say": "By mid-morning, nearly half of adults under fifty-five are at work or in class. Past sixty-five, almost no one is. Instead, about half of them spend the morning alone.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "mid-morning",
+     "cue": {
+      "clock": 390,
+      "focus": {
+       "rows": [
+        "work"
+       ]
+      }
+     },
+     "t": 41.6
+    },
+    {
+     "at": "under fifty-five",
+     "cue": {
+      "focus": {
+       "rows": [
+        "work"
+       ],
+       "cols": [
+        1,
+        2,
+        3
+       ],
+       "header": true
+      }
+     },
+     "t": 43.62
+    },
+    {
+     "at": "past sixty-five",
+     "cue": {
+      "focus": {
+       "rows": [
+        "work"
+       ],
+       "cols": [
+        5,
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 46.96
+    },
+    {
+     "at": "alone",
+     "cue": {
+      "clock": 415,
+      "focus": {
+       "rows": [
+        "alone"
+       ],
+       "cols": [
+        5,
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 52.5
+    }
+   ],
+   "words": [
+    {
+     "w": "By",
+     "t": 41.34
+    },
+    {
+     "w": "mid-morning,",
+     "t": 41.6
+    },
+    {
+     "w": "nearly",
+     "t": 42.52
+    },
+    {
+     "w": "half",
+     "t": 42.72
+    },
+    {
+     "w": "of",
+     "t": 43.16
+    },
+    {
+     "w": "adults",
+     "t": 43.34
+    },
+    {
+     "w": "under",
+     "t": 43.62
+    },
+    {
+     "w": "fifty-five",
+     "t": 43.94
+    },
+    {
+     "w": "are",
+     "t": 44.36
+    },
+    {
+     "w": "at",
+     "t": 45.06
+    },
+    {
+     "w": "work",
+     "t": 45.16
+    },
+    {
+     "w": "or",
+     "t": 45.38
+    },
+    {
+     "w": "in",
+     "t": 45.76
+    },
+    {
+     "w": "class.",
+     "t": 45.9
+    },
+    {
+     "w": "Past",
+     "t": 46.96
+    },
+    {
+     "w": "sixty-five,",
+     "t": 47.16
+    },
+    {
+     "w": "almost",
+     "t": 48.4
+    },
+    {
+     "w": "no",
+     "t": 48.68
+    },
+    {
+     "w": "one",
+     "t": 49.06
+    },
+    {
+     "w": "is.",
+     "t": 49.32
+    },
+    {
+     "w": "Instead,",
+     "t": 50.44
+    },
+    {
+     "w": "about",
+     "t": 50.82
+    },
+    {
+     "w": "half",
+     "t": 51.08
+    },
+    {
+     "w": "of",
+     "t": 51.42
+    },
+    {
+     "w": "them",
+     "t": 51.62
+    },
+    {
+     "w": "spend",
+     "t": 51.8
+    },
+    {
+     "w": "the",
+     "t": 52.04
+    },
+    {
+     "w": "morning",
+     "t": 52.24
+    },
+    {
+     "w": "alone.",
+     "t": 52.5
+    }
+   ],
+   "start": 40.99,
+   "end": 53.91
+  },
+  {
+   "id": "evening",
+   "title": "7pm: evenings at home",
+   "say": "Now jump ahead to seven in the evening. People in their thirties and forties are most often with their children. Past sixty-five, it's a partner... or no one at all.",
+   "cue": {
+    "clock": 420,
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "seven in the evening",
+     "cue": {
+      "clock": 900
+     },
+     "t": 55.56
+    },
+    {
+     "at": "thirties and forties",
+     "cue": {
+      "focus": {
+       "rows": [
+        "children"
+       ],
+       "cols": [
+        2,
+        3
+       ],
+       "header": true
+      }
+     },
+     "t": 57.95
+    },
+    {
+     "at": "partner",
+     "cue": {
+      "focus": {
+       "rows": [
+        "partner"
+       ],
+       "cols": [
+        5,
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 62.64
+    },
+    {
+     "at": "no one",
+     "cue": {
+      "clock": 915,
+      "focus": {
+       "rows": [
+        "alone"
+       ],
+       "cols": [
+        5,
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 63.6
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 54.26
+    },
+    {
+     "w": "jump",
+     "t": 54.82
+    },
+    {
+     "w": "ahead",
+     "t": 55.06
+    },
+    {
+     "w": "to",
+     "t": 55.34
+    },
+    {
+     "w": "seven",
+     "t": 55.56
+    },
+    {
+     "w": "in",
+     "t": 55.94
+    },
+    {
+     "w": "the",
+     "t": 56.1
+    },
+    {
+     "w": "evening.",
+     "t": 56.2
+    },
+    {
+     "w": "People",
+     "t": 56.48
+    },
+    {
+     "w": "in",
+     "t": 57.36
+    },
+    {
+     "w": "their",
+     "t": 57.62
+    },
+    {
+     "w": "thirties",
+     "t": 57.95
+    },
+    {
+     "w": "and",
+     "t": 58.28
+    },
+    {
+     "w": "forties",
+     "t": 58.59
+    },
+    {
+     "w": "are",
+     "t": 58.9
+    },
+    {
+     "w": "most",
+     "t": 59.04
+    },
+    {
+     "w": "often",
+     "t": 59.24
+    },
+    {
+     "w": "with",
+     "t": 59.66
+    },
+    {
+     "w": "their",
+     "t": 59.82
+    },
+    {
+     "w": "children.",
+     "t": 60.0
+    },
+    {
+     "w": "Past",
+     "t": 60.94
+    },
+    {
+     "w": "sixty-five,",
+     "t": 61.14
+    },
+    {
+     "w": "it's",
+     "t": 62.38
+    },
+    {
+     "w": "a",
+     "t": 62.58
+    },
+    {
+     "w": "partner...",
+     "t": 62.64
+    },
+    {
+     "w": "or",
+     "t": 62.92
+    },
+    {
+     "w": "no",
+     "t": 63.6
+    },
+    {
+     "w": "one",
+     "t": 63.84
+    },
+    {
+     "w": "at",
+     "t": 64.04
+    },
+    {
+     "w": "all.",
+     "t": 64.14
+    }
+   ],
+   "start": 53.91,
+   "end": 65.07
+  },
+  {
+   "id": "friends",
+   "title": "Fewer friends with age",
+   "say": "Now look at the pink row: friends. Teenagers and people in their early twenties see friends the most. By forty, that time has almost disappeared.",
+   "cue": {
+    "clock": 920,
+    "focus": {
+     "rows": [
+      "friends"
+     ]
+    }
+   },
+   "beats": [
+    {
+     "at": "teenagers",
+     "cue": {
+      "focus": {
+       "rows": [
+        "friends"
+       ],
+       "cols": [
+        0
+       ],
+       "header": true
+      }
+     },
+     "t": 68.18
+    },
+    {
+     "at": "by forty",
+     "cue": {
+      "clock": 940,
+      "focus": {
+       "rows": [
+        "friends"
+       ],
+       "cols": [
+        2,
+        3,
+        4,
+        5,
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 72.28
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 65.42
+    },
+    {
+     "w": "look",
+     "t": 65.66
+    },
+    {
+     "w": "at",
+     "t": 65.9
+    },
+    {
+     "w": "the",
+     "t": 66.0
+    },
+    {
+     "w": "pink",
+     "t": 66.1
+    },
+    {
+     "w": "row:",
+     "t": 66.34
+    },
+    {
+     "w": "friends.",
+     "t": 67.2
+    },
+    {
+     "w": "Teenagers",
+     "t": 68.18
+    },
+    {
+     "w": "and",
+     "t": 68.74
+    },
+    {
+     "w": "people",
+     "t": 69.0
+    },
+    {
+     "w": "in",
+     "t": 69.18
+    },
+    {
+     "w": "their",
+     "t": 69.48
+    },
+    {
+     "w": "early",
+     "t": 69.58
+    },
+    {
+     "w": "twenties",
+     "t": 70.0
+    },
+    {
+     "w": "see",
+     "t": 70.42
+    },
+    {
+     "w": "friends",
+     "t": 70.68
+    },
+    {
+     "w": "the",
+     "t": 70.96
+    },
+    {
+     "w": "most.",
+     "t": 71.22
+    },
+    {
+     "w": "By",
+     "t": 72.28
+    },
+    {
+     "w": "forty,",
+     "t": 72.28
+    },
+    {
+     "w": "that",
+     "t": 73.06
+    },
+    {
+     "w": "time",
+     "t": 73.22
+    },
+    {
+     "w": "has",
+     "t": 73.54
+    },
+    {
+     "w": "almost",
+     "t": 73.72
+    },
+    {
+     "w": "disappeared.",
+     "t": 74.12
+    }
+   ],
+   "start": 65.07,
+   "end": 75.93
+  },
+  {
+   "id": "total",
+   "title": "Time alone adds up",
+   "say": "Add up every hour of the day, and one pattern stands out. Time alone grows with age, from about five hours a day at twenty, to about eight hours a day at eighty.",
+   "cue": {
+    "view": "chart",
+    "chartFocus": null,
+    "chartMark": null
+   },
+   "beats": [
+    {
+     "at": "time alone",
+     "cue": {
+      "chartFocus": "alone"
+     },
+     "t": 80.52
+    },
+    {
+     "at": "five hours",
+     "cue": {
+      "chartFocus": "alone",
+      "chartMark": [
+       20
+      ]
+     },
+     "t": 83.26
+    },
+    {
+     "at": "eight hours",
+     "cue": {
+      "chartFocus": "alone",
+      "chartMark": [
+       20,
+       80
+      ]
+     },
+     "t": 85.4
+    }
+   ],
+   "words": [
+    {
+     "w": "Add",
+     "t": 76.28
+    },
+    {
+     "w": "up",
+     "t": 76.58
+    },
+    {
+     "w": "every",
+     "t": 76.74
+    },
+    {
+     "w": "hour",
+     "t": 77.0
+    },
+    {
+     "w": "of",
+     "t": 77.46
+    },
+    {
+     "w": "the",
+     "t": 77.68
+    },
+    {
+     "w": "day,",
+     "t": 77.78
+    },
+    {
+     "w": "and",
+     "t": 78.02
+    },
+    {
+     "w": "one",
+     "t": 78.5
+    },
+    {
+     "w": "pattern",
+     "t": 78.8
+    },
+    {
+     "w": "stands",
+     "t": 79.22
+    },
+    {
+     "w": "out.",
+     "t": 79.58
+    },
+    {
+     "w": "Time",
+     "t": 80.52
+    },
+    {
+     "w": "alone",
+     "t": 81.12
+    },
+    {
+     "w": "grows",
+     "t": 81.32
+    },
+    {
+     "w": "with",
+     "t": 81.7
+    },
+    {
+     "w": "age,",
+     "t": 82.16
+    },
+    {
+     "w": "from",
+     "t": 82.9
+    },
+    {
+     "w": "about",
+     "t": 83.06
+    },
+    {
+     "w": "five",
+     "t": 83.26
+    },
+    {
+     "w": "hours",
+     "t": 83.7
+    },
+    {
+     "w": "a",
+     "t": 83.94
+    },
+    {
+     "w": "day",
+     "t": 84.1
+    },
+    {
+     "w": "at",
+     "t": 84.26
+    },
+    {
+     "w": "twenty,",
+     "t": 84.38
+    },
+    {
+     "w": "to",
+     "t": 84.62
+    },
+    {
+     "w": "about",
+     "t": 85.18
+    },
+    {
+     "w": "eight",
+     "t": 85.4
+    },
+    {
+     "w": "hours",
+     "t": 85.8
+    },
+    {
+     "w": "a",
+     "t": 86.08
+    },
+    {
+     "w": "day",
+     "t": 86.24
+    },
+    {
+     "w": "at",
+     "t": 86.44
+    },
+    {
+     "w": "eighty.",
+     "t": 86.74
+    }
+   ],
+   "start": 75.93,
+   "end": 87.51
+  },
+  {
+   "id": "reflect",
+   "title": "Small moments, together",
+   "say": "Experts now call loneliness a public health concern... as serious for our health as smoking. Time alone isn't the same as loneliness... but it's where loneliness can begin. We can't add more hours to the day... but we can choose who we spend them with. A phone call... a shared meal... a short visit. Small moments, together... go a long way.",
+   "cue": {
+    "view": "sim",
+    "clock": 940,
+    "focus": {
+     "rows": [
+      "alone"
+     ]
+    },
+    "outline": false,
+    "pulse": false,
+    "chartFocus": null,
+    "chartMark": null,
+    "connect": 0,
+    "grand": false,
+    "breathe": true
+   },
+   "beats": [
+    {
+     "at": "time alone isn't",
+     "cue": {
+      "grand": true,
+      "breathe": false,
+      "focus": {
+       "rows": [
+        "alone"
+       ],
+       "cols": [
+        6
+       ],
+       "header": true
+      }
+     },
+     "t": 94.3
+    },
+    {
+     "at": "a phone call",
+     "cue": {
+      "connect": 1
+     },
+     "t": 104.48
+    },
+    {
+     "at": "a shared meal",
+     "cue": {
+      "connect": 2
+     },
+     "t": 106.22
+    },
+    {
+     "at": "a short visit",
+     "cue": {
+      "connect": 3
+     },
+     "t": 107.42
+    },
+    {
+     "at": "small moments",
+     "cue": {
+      "focus": null,
+      "grand": false,
+      "connect": 0,
+      "glow": false,
+      "clock": 940,
+      "together": true
+     },
+     "t": 108.62
+    }
+   ],
+   "words": [
+    {
+     "w": "Experts",
+     "t": 87.86
+    },
+    {
+     "w": "now",
+     "t": 88.38
+    },
+    {
+     "w": "call",
+     "t": 88.8
+    },
+    {
+     "w": "loneliness",
+     "t": 89.06
+    },
+    {
+     "w": "a",
+     "t": 89.42
+    },
+    {
+     "w": "public",
+     "t": 89.94
+    },
+    {
+     "w": "health",
+     "t": 90.18
+    },
+    {
+     "w": "concern...",
+     "t": 90.58
+    },
+    {
+     "w": "as",
+     "t": 91.46
+    },
+    {
+     "w": "serious",
+     "t": 91.64
+    },
+    {
+     "w": "for",
+     "t": 92.02
+    },
+    {
+     "w": "our",
+     "t": 92.32
+    },
+    {
+     "w": "health",
+     "t": 92.46
+    },
+    {
+     "w": "as",
+     "t": 92.68
+    },
+    {
+     "w": "smoking.",
+     "t": 93.06
+    },
+    {
+     "w": "Time",
+     "t": 94.3
+    },
+    {
+     "w": "alone",
+     "t": 94.58
+    },
+    {
+     "w": "isn't",
+     "t": 94.84
+    },
+    {
+     "w": "the",
+     "t": 95.54
+    },
+    {
+     "w": "same",
+     "t": 95.64
+    },
+    {
+     "w": "as",
+     "t": 95.94
+    },
+    {
+     "w": "loneliness...",
+     "t": 96.14
+    },
+    {
+     "w": "but",
+     "t": 97.16
+    },
+    {
+     "w": "it's",
+     "t": 97.36
+    },
+    {
+     "w": "where",
+     "t": 97.5
+    },
+    {
+     "w": "loneliness",
+     "t": 97.7
+    },
+    {
+     "w": "can",
+     "t": 98.02
+    },
+    {
+     "w": "begin.",
+     "t": 98.54
+    },
+    {
+     "w": "We",
+     "t": 99.7
+    },
+    {
+     "w": "can't",
+     "t": 99.82
+    },
+    {
+     "w": "add",
+     "t": 100.16
+    },
+    {
+     "w": "more",
+     "t": 100.36
+    },
+    {
+     "w": "hours",
+     "t": 100.64
+    },
+    {
+     "w": "to",
+     "t": 101.06
+    },
+    {
+     "w": "the",
+     "t": 101.36
+    },
+    {
+     "w": "day...",
+     "t": 101.46
+    },
+    {
+     "w": "but",
+     "t": 102.12
+    },
+    {
+     "w": "we",
+     "t": 102.34
+    },
+    {
+     "w": "can",
+     "t": 102.46
+    },
+    {
+     "w": "choose",
+     "t": 102.8
+    },
+    {
+     "w": "who",
+     "t": 103.2
+    },
+    {
+     "w": "we",
+     "t": 103.62
+    },
+    {
+     "w": "spend",
+     "t": 103.82
+    },
+    {
+     "w": "them",
+     "t": 104.04
+    },
+    {
+     "w": "with.",
+     "t": 104.24
+    },
+    {
+     "w": "A",
+     "t": 104.48
+    },
+    {
+     "w": "phone",
+     "t": 104.96
+    },
+    {
+     "w": "call...",
+     "t": 105.38
+    },
+    {
+     "w": "a",
+     "t": 106.22
+    },
+    {
+     "w": "shared",
+     "t": 106.22
+    },
+    {
+     "w": "meal...",
+     "t": 106.44
+    },
+    {
+     "w": "a",
+     "t": 107.42
+    },
+    {
+     "w": "short",
+     "t": 107.44
+    },
+    {
+     "w": "visit.",
+     "t": 107.62
+    },
+    {
+     "w": "Small",
+     "t": 108.62
+    },
+    {
+     "w": "moments,",
+     "t": 108.86
+    },
+    {
+     "w": "together...",
+     "t": 109.3
+    },
+    {
+     "w": "go",
+     "t": 110.06
+    },
+    {
+     "w": "a",
+     "t": 110.92
+    },
+    {
+     "w": "long",
+     "t": 111.06
+    },
+    {
+     "w": "way.",
+     "t": 111.4
+    }
+   ],
+   "start": 87.51,
+   "end": 112.61
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to play any hour of the day yourself, or see the hours add up across a lifetime.",
+   "cue": {
+    "view": "sim",
+    "clock": 940,
+    "focus": null,
+    "chartFocus": null,
+    "chartMark": null,
+    "connect": 0,
+    "glow": false,
+    "grand": false,
+    "breathe": false
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore",
+      "clock": 960
+     },
+     "t": 114.9
+    },
+    {
+     "at": "lifetime",
+     "cue": {
+      "clock": 1020
+     },
+     "t": 120.28
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 112.96
+    },
+    {
+     "w": "it's",
+     "t": 113.2
+    },
+    {
+     "w": "your",
+     "t": 113.54
+    },
+    {
+     "w": "turn.",
+     "t": 113.76
+    },
+    {
+     "w": "Click",
+     "t": 114.84
+    },
+    {
+     "w": "Explore",
+     "t": 114.9
+    },
+    {
+     "w": "to",
+     "t": 115.42
+    },
+    {
+     "w": "play",
+     "t": 115.82
+    },
+    {
+     "w": "any",
+     "t": 116.02
+    },
+    {
+     "w": "hour",
+     "t": 116.3
+    },
+    {
+     "w": "of",
+     "t": 116.68
+    },
+    {
+     "w": "the",
+     "t": 116.8
+    },
+    {
+     "w": "day",
+     "t": 116.92
+    },
+    {
+     "w": "yourself,",
+     "t": 117.08
+    },
+    {
+     "w": "or",
+     "t": 118.08
+    },
+    {
+     "w": "see",
+     "t": 118.24
+    },
+    {
+     "w": "the",
+     "t": 118.68
+    },
+    {
+     "w": "hours",
+     "t": 118.82
+    },
+    {
+     "w": "add",
+     "t": 119.12
+    },
+    {
+     "w": "up",
+     "t": 119.46
+    },
+    {
+     "w": "across",
+     "t": 119.7
+    },
+    {
+     "w": "a",
+     "t": 119.98
+    },
+    {
+     "w": "lifetime.",
+     "t": 120.28
+    }
+   ],
+   "start": 112.61,
+   "end": 122.578
+  }
+ ],
+ "duration": 122.578,
+ "audio": "narration"
+}
