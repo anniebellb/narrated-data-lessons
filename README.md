@@ -49,14 +49,16 @@ claude.ai → Customize → Skills. **Updating:** `/plugin marketplace update na
 
 ## The four chart types
 
-| Chart | Best for | Starter (sample data) |
-|---|---|---|
-| **Dot timeline** | What people do, moment to moment, compared across groups (one dot = one person) | [example lesson](viz/who-by-age/) |
-| **Line reveal** | How something changes over time (lines draw as the narrator speaks) | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/line-reveal/sample/) |
-| **Moving scatter** | How two measures relate and shift over the years (one bubble = one country, school…) | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/moving-scatter/sample/) |
-| **Unit / waffle** | How many out of 100, compared across groups and over time | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/unit-waffle/sample/) |
+| Chart | Best for |
+|---|---|
+| **Dot timeline** | What people do, moment to moment, compared across groups (one dot = one person). See the [example lesson](https://anniebellb.github.io/narrated-data-lessons/viz/who-by-age/). |
+| **Line reveal** | How something changes over time (lines draw as the narrator speaks) |
+| **Moving scatter** | How two measures relate and shift over the years (one bubble = one country, school…) |
+| **Unit / waffle** | How many out of 100, compared across groups and over time |
 
-The samples use **made-up data** for demonstration only.
+Each chart type ships with a small **starter template** (made-up placeholder data, no
+narration) that the skill copies and replaces with your data, script and recorded voice.
+The templates are building blocks, not finished lessons.
 
 ## Fork it / branch off it
 
@@ -77,7 +79,7 @@ plugins/narrated-data-lessons/ the Claude Code plugin
     SKILL.md                   the workflow, checkpoints and self-checks
     references/                design rules, chart chooser, data formats, storyboard, narration, guidance
     assets/engine/             lesson player (shell, video, captions, music, Explore) + shared effects
-    assets/charts/<type>/      the four chart types, each with a sample lesson
+    assets/charts/<type>/      the four chart types, each with a starter template (placeholder data)
     scripts/                   data profiler, lesson checker, timing, placeholder voice, music tools
 docs/                          design log and changelog from building the first lesson
 scripts/                       pipeline for the example lesson
