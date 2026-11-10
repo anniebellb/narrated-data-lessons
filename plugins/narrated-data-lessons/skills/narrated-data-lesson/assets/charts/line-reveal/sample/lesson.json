@@ -1,0 +1,22 @@
+{
+ "title": "Plant growth (sample)",
+ "kicker": "Sample lesson",
+ "badge": "Sample data \u00b7 made up",
+ "chart": "line-reveal",
+ "data": "data.json",
+ "storyboard": "video.timed.json",
+ "narration": null,
+ "music": null,
+ "keyLabel": "Plants",
+ "detailIdle": {
+  "kicker": "",
+  "title": "Hover over the chart",
+  "body": "Hover over the chart to see each plant's height that week."
+ },
+ "notes": [
+  "SAMPLE DATA (made up) for testing this chart type. Replace with real data before publishing."
+ ],
+ "chartConfig": {
+  "markLabel": "{y} cm at {x}"
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "terms": {
+  "walk": [
+   "walk"
+  ],
+  "bike": [
+   "bike"
+  ],
+  "bus": [
+   "bus"
+  ],
+  "car": [
+   "car",
+   "driven"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each square is one student out of a hundred. Every grid is a different kind of place.",
+   "cue": {
+    "pos": 0,
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "each square",
+     "cue": {
+      "beacon": {
+       "panel": "city",
+       "category": "walk",
+       "label": "1 student"
+      }
+     }
+    },
+    {
+     "at": "every grid",
+     "cue": {
+      "beacon": null,
+      "focus": {
+       "panels": [
+        "city",
+        "suburb",
+        "rural"
+       ]
+      },
+      "outline": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "car",
+   "title": "Driven to school",
+   "say": "In the suburbs, half of students are driven by car.",
+   "cue": {
+    "outline": false,
+    "focus": {
+     "categories": [
+      "car"
+     ],
+     "panels": [
+      "suburb"
+     ]
+    }
+   },
+   "beats": []
+  },
+  {
+   "id": "time",
+   "title": "Ten years later",
+   "say": "Over ten years, more city students walk and bike.",
+   "cue": {
+    "focus": {
+     "categories": [
+      "walk",
+      "bike"
+     ],
+     "panels": [
+      "city"
+     ]
+    }
+   },
+   "beats": [
+    {
+     "at": "over ten years",
+     "cue": {
+      "pos": 0
+     }
+    },
+    {
+     "at": "walk and bike",
+     "cue": {
+      "pos": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to compare the years yourself.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     }
+    }
+   ]
+  }
+ ]
+}

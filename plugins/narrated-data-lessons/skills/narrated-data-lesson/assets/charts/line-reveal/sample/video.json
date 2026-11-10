@@ -1,0 +1,96 @@
+{
+ "terms": {
+  "a": [
+   "plant a"
+  ],
+  "b": [
+   "plant b"
+  ],
+  "c": [
+   "plant c"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each line is one plant, measured every week for twenty weeks.",
+   "cue": {
+    "pos": 0,
+    "focus": null,
+    "marks": null
+   },
+   "beats": []
+  },
+  {
+   "id": "grow",
+   "title": "Growing",
+   "say": "Watch them grow. Plant A shoots up fastest.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "watch",
+     "cue": {
+      "pos": 0
+     }
+    },
+    {
+     "at": "plant a",
+     "cue": {
+      "pos": 20,
+      "focus": {
+       "series": [
+        "a"
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "num",
+   "title": "By week twenty",
+   "say": "By week twenty, Plant A is about 36 centimeters tall.",
+   "cue": {
+    "pos": 20,
+    "focus": {
+     "series": [
+      "a"
+     ]
+    }
+   },
+   "beats": [
+    {
+     "at": "by week twenty",
+     "cue": {
+      "marks": [
+       {
+        "series": "a",
+        "x": 20
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to replay the weeks yourself.",
+   "cue": {
+    "focus": null,
+    "marks": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     }
+    }
+   ]
+  }
+ ]
+}

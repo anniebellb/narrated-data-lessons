@@ -1,0 +1,22 @@
+{
+ "title": "Study time and test scores (sample)",
+ "kicker": "Sample lesson",
+ "badge": "Sample data \u00b7 made up",
+ "chart": "moving-scatter",
+ "data": "data.json",
+ "storyboard": "video.timed.json",
+ "narration": null,
+ "music": null,
+ "keyLabel": "School type",
+ "detailIdle": {
+  "kicker": "",
+  "title": "Hover over a bubble",
+  "body": "Hover over a bubble to see that school's numbers for the current year."
+ },
+ "notes": [
+  "SAMPLE DATA (made up) for testing this chart type. Replace with real data before publishing."
+ ],
+ "chartConfig": {
+  "outlineFocus": false
+ }
+}

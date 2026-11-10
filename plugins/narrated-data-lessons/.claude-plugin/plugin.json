@@ -1,0 +1,9 @@
+{
+  "name": "narrated-data-lessons",
+  "description": "Turn a dataset (link, CSV, Excel, JSON or PDF table) into a narrated, animated data-visualization lesson with a synced video and an interactive explore mode.",
+  "author": { "name": "Annie Kiele Brown" },
+  "repository": "https://github.com/anniebellb/narrated-data-lessons",
+  "homepage": "https://anniebellb.github.io/narrated-data-lessons/",
+  "license": "MIT",
+  "keywords": ["data-visualization", "education", "narration", "animation", "lessons"]
+}

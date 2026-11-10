@@ -1,0 +1,26 @@
+[
+ {
+  "id": "alone-at-20",
+  "value": 5.32,
+  "spoken": 5,
+  "round_ok": 0.1,
+  "source": "hours alone per day at age 20 (5-year rolling mean)"
+ },
+ {
+  "id": "alone-at-80",
+  "value": 8.07,
+  "spoken": 8,
+  "round_ok": 0.1,
+  "source": "hours alone per day at age 80+"
+ },
+ {
+  "id": "age-20",
+  "value": 20,
+  "spoken": 20
+ },
+ {
+  "id": "age-80",
+  "value": 80,
+  "spoken": 80
+ }
+]

@@ -1,0 +1,112 @@
+{
+  "title": "Who we spend our day with, and how it changes as we age",
+  "kicker": "Human behavior",
+  "badge": "ATUS \u00b7 81,148 people",
+  "chart": "dot-timeline",
+  "data": "../../data/who-by-age.json",
+  "storyboard": "../../viz/who-by-age/video.timed.json",
+  "narration": "../../viz/who-by-age/narration/narration.mp3",
+  "music": "../../viz/who-by-age/narration/music.m4a",
+  "musicVolume": 0.045,
+  "keyLabel": "Who they're with",
+  "detailIdle": {
+    "kicker": "One person's day",
+    "title": "Hover over a dot or group",
+    "body": "Hover over a dot to see how one person spent all 24 hours, or over a group on the left to see who it includes."
+  },
+  "detailHint": "Each dot is a survey respondent, resampled by survey weight.",
+  "endCard": {
+    "title": "Your turn",
+    "text": "Play any hour of the day yourself, or switch to the hours-by-age chart, in Explore."
+  },
+  "explore": {
+    "startPos": 0,
+    "view": "sim"
+  },
+  "notes": [
+    "Each dot is a survey respondent resampled in proportion to their survey weight; dots are not tracked individuals.",
+    "ATUS does not ask who was present during sleep, grooming, work, or class.",
+    "When several people were present, the dot joins one group in this order: children, partner, other family, friends, others.",
+    "2020\u20132021 are excluded because the pandemic disrupted normal social time.",
+    "Time alone is not the same as loneliness: the survey records who was present, not how people felt. The comparison of loneliness to smoking comes from the U.S. Surgeon General's 2023 advisory, <a href=\"https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf\" target=\"_blank\" rel=\"noopener\">Our Epidemic of Loneliness and Isolation</a>."
+  ],
+  "sources": [
+    {
+      "label": "American Time Use Survey, 2003\u20132025 multi-year microdata, U.S. Bureau of Labor Statistics",
+      "url": "https://www.bls.gov/tus/data/datafiles-0325.htm"
+    }
+  ],
+  "chartConfig": {
+    "rows": [
+      "work",
+      "others",
+      "friends",
+      "family",
+      "children",
+      "partner",
+      "alone",
+      "sleep"
+    ],
+    "rowWeight": {
+      "sleep": 1.6
+    },
+    "colors": {
+      "alone": "#2a78d6",
+      "partner": "#eb6834",
+      "children": "#1baf7a",
+      "family": "#eda100",
+      "friends": "#e87ba4",
+      "others": "#008300",
+      "work": "#9d9a92",
+      "sleep": "#c4c0b6"
+    },
+    "grey": [
+      "work",
+      "sleep"
+    ],
+    "dots": 200,
+    "headerStat": {
+      "state": "alone",
+      "suffix": "alone"
+    },
+    "social": [
+      "partner",
+      "children",
+      "family",
+      "friends",
+      "others"
+    ],
+    "pulseState": "alone",
+    "pulseLabel": "1 person",
+    "breatheState": "alone",
+    "connect": {
+      "state": "alone",
+      "toGroup": 6,
+      "fromGroups": [
+        3,
+        1,
+        0
+      ]
+    },
+    "connectLabel": "Someone's grandparent",
+    "simLabel": "Simulation",
+    "summary": {
+      "data": "summary.json",
+      "label": "Hours by age",
+      "markSeries": "alone",
+      "config": {
+        "markLabel": "{y} hrs at {x}"
+      }
+    },
+    "groupInfo": {
+      "alone": "No one else was there.",
+      "partner": "With a spouse or unmarried partner. If their children were there too, the dot goes to Your children.",
+      "children": "With their own children: kids living at home (of any age), foster children, or their own children under 18 living elsewhere.",
+      "family": "With other relatives: parents, brothers and sisters, grandchildren, in-laws and other family.",
+      "friends": "With friends.",
+      "others": "With anyone else: coworkers outside of working time, neighbors, housemates, customers and other people.",
+      "work": "Working or in class. The survey doesn't ask who people are with during these, so the dots are gray.",
+      "sleep": "Sleeping, grooming and other personal care. The survey doesn't ask who people are with during these, so the dots are gray."
+    }
+  }
+}

@@ -1,0 +1,278 @@
+{
+ "terms": {
+  "a": [
+   "plant a"
+  ],
+  "b": [
+   "plant b"
+  ],
+  "c": [
+   "plant c"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each line is one plant, measured every week for twenty weeks.",
+   "cue": {
+    "pos": 0,
+    "focus": null,
+    "marks": null
+   },
+   "beats": [],
+   "words": [
+    {
+     "w": "Each",
+     "t": 0.4
+    },
+    {
+     "w": "line",
+     "t": 0.8
+    },
+    {
+     "w": "is",
+     "t": 1.2
+    },
+    {
+     "w": "one",
+     "t": 1.6
+    },
+    {
+     "w": "plant,",
+     "t": 2.0
+    },
+    {
+     "w": "measured",
+     "t": 2.6
+    },
+    {
+     "w": "every",
+     "t": 3.1
+    },
+    {
+     "w": "week",
+     "t": 3.5
+    },
+    {
+     "w": "for",
+     "t": 3.9
+    },
+    {
+     "w": "twenty",
+     "t": 4.3
+    },
+    {
+     "w": "weeks.",
+     "t": 4.7
+    }
+   ],
+   "start": 0.0,
+   "end": 6.1
+  },
+  {
+   "id": "grow",
+   "title": "Growing",
+   "say": "Watch them grow. Plant A shoots up fastest.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "watch",
+     "cue": {
+      "pos": 0
+     },
+     "t": 6.45
+    },
+    {
+     "at": "plant a",
+     "cue": {
+      "pos": 20,
+      "focus": {
+       "series": [
+        "a"
+       ]
+      }
+     },
+     "t": 8.1
+    }
+   ],
+   "words": [
+    {
+     "w": "Watch",
+     "t": 6.45
+    },
+    {
+     "w": "them",
+     "t": 6.85
+    },
+    {
+     "w": "grow.",
+     "t": 7.25
+    },
+    {
+     "w": "Plant",
+     "t": 8.1
+    },
+    {
+     "w": "A",
+     "t": 8.5
+    },
+    {
+     "w": "shoots",
+     "t": 8.9
+    },
+    {
+     "w": "up",
+     "t": 9.3
+    },
+    {
+     "w": "fastest.",
+     "t": 9.7
+    }
+   ],
+   "start": 6.1,
+   "end": 11.1
+  },
+  {
+   "id": "num",
+   "title": "By week twenty",
+   "say": "By week twenty, Plant A is about 36 centimeters tall.",
+   "cue": {
+    "pos": 20,
+    "focus": {
+     "series": [
+      "a"
+     ]
+    }
+   },
+   "beats": [
+    {
+     "at": "by week twenty",
+     "cue": {
+      "marks": [
+       {
+        "series": "a",
+        "x": 20
+       }
+      ]
+     },
+     "t": 11.45
+    }
+   ],
+   "words": [
+    {
+     "w": "By",
+     "t": 11.45
+    },
+    {
+     "w": "week",
+     "t": 11.85
+    },
+    {
+     "w": "twenty,",
+     "t": 12.25
+    },
+    {
+     "w": "Plant",
+     "t": 12.85
+    },
+    {
+     "w": "A",
+     "t": 13.25
+    },
+    {
+     "w": "is",
+     "t": 13.65
+    },
+    {
+     "w": "about",
+     "t": 14.05
+    },
+    {
+     "w": "36",
+     "t": 14.45
+    },
+    {
+     "w": "centimeters",
+     "t": 14.85
+    },
+    {
+     "w": "tall.",
+     "t": 15.35
+    }
+   ],
+   "start": 11.1,
+   "end": 16.75
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to replay the weeks yourself.",
+   "cue": {
+    "focus": null,
+    "marks": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     },
+     "t": 19.55
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 17.1
+    },
+    {
+     "w": "it's",
+     "t": 17.5
+    },
+    {
+     "w": "your",
+     "t": 17.9
+    },
+    {
+     "w": "turn.",
+     "t": 18.3
+    },
+    {
+     "w": "Click",
+     "t": 19.15
+    },
+    {
+     "w": "Explore",
+     "t": 19.55
+    },
+    {
+     "w": "to",
+     "t": 19.95
+    },
+    {
+     "w": "replay",
+     "t": 20.35
+    },
+    {
+     "w": "the",
+     "t": 20.75
+    },
+    {
+     "w": "weeks",
+     "t": 21.15
+    },
+    {
+     "w": "yourself.",
+     "t": 21.55
+    }
+   ],
+   "start": 16.75,
+   "end": 24.9
+  }
+ ],
+ "duration": 24.9,
+ "audio": "narration"
+}

@@ -1,5 +1,7 @@
 # Design & interaction rules (for the dot-timeline lesson skill)
 
+> The maintained copy of these rules ships with the skill: `plugins/narrated-data-lessons/skills/narrated-data-lesson/references/design-rules.md`. This file is the original design log from lesson 1.
+
 Every rule below came from review with the project owner while building the first
 lesson, **Who we spend our day with, by age** (`viz/who-by-age/`). They are written so
 they apply to any dataset with the *person × state × time* shape (time-use surveys,

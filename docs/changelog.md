@@ -61,3 +61,15 @@ Music bed ("A Lifetime In Small Moments") chosen for steadiness → volume lower
 (other options generated, not used) → track ended under the narration → extended with a
 time-picked crossfade (sounded like overlap) → **re-spliced at a musically matching point**
 (1:30 → 1:12, same beat & chord).
+
+## Skill & engine (narrated-data-lessons)
+- Repo renamed **narrated-data-lessons**; made public-ready (MIT code, CC BY 4.0 content, landing page, GitHub Pages).
+- Lesson split into a **chart-agnostic engine** (shell, storyboard, captions, chapters, audio,
+  music, Explore) + **four chart types**: dot timeline (ported; original lesson left untouched),
+  line reveal, moving scatter, unit/waffle. Bar race and maps deferred (harder to read in motion).
+- Shared effects library (`engine/fx.js`) so every chart pulses, boxes, tags and fades the same way.
+- Holding data still during fast jumps is a per-chart setting (dot timeline only; scatter should move).
+- Silent preview clock uses real elapsed time (frame-counted time crawled in background tabs).
+- Skill: data profiler with plain-language fit verdicts (link/CSV/Excel/JSON/PDF), three
+  user checkpoints, `check_lesson.py` self-check (data format, stale timing, narrated numbers
+  vs `facts.json`, audio lengths), beginner walkthroughs, starter lessons per chart type.

@@ -1,0 +1,143 @@
+{
+ "schema": "unit-waffle/v1",
+ "title": "How 100 students get to school (sample data)",
+ "unitLabel": "Each square is 1 student out of 100",
+ "unitsPerPanel": 100,
+ "columns": 10,
+ "categories": [
+  {
+   "id": "walk",
+   "label": "Walk",
+   "color": "#1baf7a",
+   "desc": "Walks to school."
+  },
+  {
+   "id": "bike",
+   "label": "Bike",
+   "color": "#eda100",
+   "desc": "Bikes to school."
+  },
+  {
+   "id": "bus",
+   "label": "Bus",
+   "color": "#2a78d6",
+   "desc": "Takes the bus."
+  },
+  {
+   "id": "car",
+   "label": "Car",
+   "color": "#eb6834",
+   "desc": "Driven by car."
+  }
+ ],
+ "frames": [
+  {
+   "id": "2015",
+   "label": "2015",
+   "panels": [
+    {
+     "id": "city",
+     "label": "City",
+     "shares": {
+      "walk": 0.3,
+      "bike": 0.1,
+      "bus": 0.35,
+      "car": 0.25
+     }
+    },
+    {
+     "id": "suburb",
+     "label": "Suburb",
+     "shares": {
+      "walk": 0.12,
+      "bike": 0.08,
+      "bus": 0.3,
+      "car": 0.5
+     }
+    },
+    {
+     "id": "rural",
+     "label": "Rural",
+     "shares": {
+      "walk": 0.04,
+      "bike": 0.03,
+      "bus": 0.48,
+      "car": 0.45
+     }
+    }
+   ]
+  },
+  {
+   "id": "2020",
+   "label": "2020",
+   "panels": [
+    {
+     "id": "city",
+     "label": "City",
+     "shares": {
+      "walk": 0.33,
+      "bike": 0.14,
+      "bus": 0.35,
+      "car": 0.18
+     }
+    },
+    {
+     "id": "suburb",
+     "label": "Suburb",
+     "shares": {
+      "walk": 0.12,
+      "bike": 0.1,
+      "bus": 0.3,
+      "car": 0.48
+     }
+    },
+    {
+     "id": "rural",
+     "label": "Rural",
+     "shares": {
+      "walk": 0.04,
+      "bike": 0.03,
+      "bus": 0.5,
+      "car": 0.43
+     }
+    }
+   ]
+  },
+  {
+   "id": "2025",
+   "label": "2025",
+   "panels": [
+    {
+     "id": "city",
+     "label": "City",
+     "shares": {
+      "walk": 0.36,
+      "bike": 0.18,
+      "bus": 0.35,
+      "car": 0.11
+     }
+    },
+    {
+     "id": "suburb",
+     "label": "Suburb",
+     "shares": {
+      "walk": 0.12,
+      "bike": 0.12,
+      "bus": 0.3,
+      "car": 0.46
+     }
+    },
+    {
+     "id": "rural",
+     "label": "Rural",
+     "shares": {
+      "walk": 0.04,
+      "bike": 0.03,
+      "bus": 0.52,
+      "car": 0.41
+     }
+    }
+   ]
+  }
+ ]
+}

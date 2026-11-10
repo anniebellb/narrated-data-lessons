@@ -1,0 +1,7 @@
+# Data + checks
+pandas>=2.0
+numpy>=1.24
+openpyxl>=3.1        # Excel files
+pdfplumber>=0.10     # tables inside PDFs (optional)
+# Word timing for recorded narration (optional; needs Python 3.9–3.12)
+faster-whisper>=1.0

@@ -1,0 +1,328 @@
+{
+ "terms": {
+  "walk": [
+   "walk"
+  ],
+  "bike": [
+   "bike"
+  ],
+  "bus": [
+   "bus"
+  ],
+  "car": [
+   "car",
+   "driven"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each square is one student out of a hundred. Every grid is a different kind of place.",
+   "cue": {
+    "pos": 0,
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "each square",
+     "cue": {
+      "beacon": {
+       "panel": "city",
+       "category": "walk",
+       "label": "1 student"
+      }
+     },
+     "t": 0.4
+    },
+    {
+     "at": "every grid",
+     "cue": {
+      "beacon": null,
+      "focus": {
+       "panels": [
+        "city",
+        "suburb",
+        "rural"
+       ]
+      },
+      "outline": true
+     },
+     "t": 4.45
+    }
+   ],
+   "words": [
+    {
+     "w": "Each",
+     "t": 0.4
+    },
+    {
+     "w": "square",
+     "t": 0.8
+    },
+    {
+     "w": "is",
+     "t": 1.2
+    },
+    {
+     "w": "one",
+     "t": 1.6
+    },
+    {
+     "w": "student",
+     "t": 2.0
+    },
+    {
+     "w": "out",
+     "t": 2.4
+    },
+    {
+     "w": "of",
+     "t": 2.8
+    },
+    {
+     "w": "a",
+     "t": 3.2
+    },
+    {
+     "w": "hundred.",
+     "t": 3.6
+    },
+    {
+     "w": "Every",
+     "t": 4.45
+    },
+    {
+     "w": "grid",
+     "t": 4.85
+    },
+    {
+     "w": "is",
+     "t": 5.25
+    },
+    {
+     "w": "a",
+     "t": 5.65
+    },
+    {
+     "w": "different",
+     "t": 6.05
+    },
+    {
+     "w": "kind",
+     "t": 6.55
+    },
+    {
+     "w": "of",
+     "t": 6.95
+    },
+    {
+     "w": "place.",
+     "t": 7.35
+    }
+   ],
+   "start": 0.0,
+   "end": 8.75
+  },
+  {
+   "id": "car",
+   "title": "Driven to school",
+   "say": "In the suburbs, half of students are driven by car.",
+   "cue": {
+    "outline": false,
+    "focus": {
+     "categories": [
+      "car"
+     ],
+     "panels": [
+      "suburb"
+     ]
+    }
+   },
+   "beats": [],
+   "words": [
+    {
+     "w": "In",
+     "t": 9.1
+    },
+    {
+     "w": "the",
+     "t": 9.5
+    },
+    {
+     "w": "suburbs,",
+     "t": 9.9
+    },
+    {
+     "w": "half",
+     "t": 10.5
+    },
+    {
+     "w": "of",
+     "t": 10.9
+    },
+    {
+     "w": "students",
+     "t": 11.3
+    },
+    {
+     "w": "are",
+     "t": 11.8
+    },
+    {
+     "w": "driven",
+     "t": 12.2
+    },
+    {
+     "w": "by",
+     "t": 12.6
+    },
+    {
+     "w": "car.",
+     "t": 13.0
+    }
+   ],
+   "start": 8.75,
+   "end": 14.4
+  },
+  {
+   "id": "time",
+   "title": "Ten years later",
+   "say": "Over ten years, more city students walk and bike.",
+   "cue": {
+    "focus": {
+     "categories": [
+      "walk",
+      "bike"
+     ],
+     "panels": [
+      "city"
+     ]
+    }
+   },
+   "beats": [
+    {
+     "at": "over ten years",
+     "cue": {
+      "pos": 0
+     },
+     "t": 14.75
+    },
+    {
+     "at": "walk and bike",
+     "cue": {
+      "pos": 2
+     },
+     "t": 17.45
+    }
+   ],
+   "words": [
+    {
+     "w": "Over",
+     "t": 14.75
+    },
+    {
+     "w": "ten",
+     "t": 15.15
+    },
+    {
+     "w": "years,",
+     "t": 15.55
+    },
+    {
+     "w": "more",
+     "t": 16.15
+    },
+    {
+     "w": "city",
+     "t": 16.55
+    },
+    {
+     "w": "students",
+     "t": 16.95
+    },
+    {
+     "w": "walk",
+     "t": 17.45
+    },
+    {
+     "w": "and",
+     "t": 17.85
+    },
+    {
+     "w": "bike.",
+     "t": 18.25
+    }
+   ],
+   "start": 14.4,
+   "end": 19.65
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to compare the years yourself.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     },
+     "t": 22.45
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 20.0
+    },
+    {
+     "w": "it's",
+     "t": 20.4
+    },
+    {
+     "w": "your",
+     "t": 20.8
+    },
+    {
+     "w": "turn.",
+     "t": 21.2
+    },
+    {
+     "w": "Click",
+     "t": 22.05
+    },
+    {
+     "w": "Explore",
+     "t": 22.45
+    },
+    {
+     "w": "to",
+     "t": 22.85
+    },
+    {
+     "w": "compare",
+     "t": 23.25
+    },
+    {
+     "w": "the",
+     "t": 23.65
+    },
+    {
+     "w": "years",
+     "t": 24.05
+    },
+    {
+     "w": "yourself.",
+     "t": 24.45
+    }
+   ],
+   "start": 19.65,
+   "end": 27.8
+  }
+ ],
+ "duration": 27.8,
+ "audio": "narration"
+}

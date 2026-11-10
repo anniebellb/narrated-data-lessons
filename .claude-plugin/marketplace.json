@@ -1,0 +1,12 @@
+{
+  "name": "narrated-data-lessons",
+  "description": "Turn a dataset into a narrated, animated data-visualization lesson (video + interactive explore).",
+  "owner": { "name": "Annie Kiele Brown" },
+  "plugins": [
+    {
+      "name": "narrated-data-lessons",
+      "source": "./plugins/narrated-data-lessons",
+      "description": "Narrated, animated data-visualization lessons: checks your data, picks the best of four chart types, writes and fact-checks the script, and builds the video + explore lesson."
+    }
+  ]
+}

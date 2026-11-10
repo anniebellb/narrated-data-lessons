@@ -1,0 +1,241 @@
+{
+ "duration": 26.3,
+ "words": [
+  {
+   "w": "Each",
+   "start": 0.4,
+   "end": 0.76
+  },
+  {
+   "w": "square",
+   "start": 0.8,
+   "end": 1.16
+  },
+  {
+   "w": "is",
+   "start": 1.2,
+   "end": 1.56
+  },
+  {
+   "w": "one",
+   "start": 1.6,
+   "end": 1.96
+  },
+  {
+   "w": "student",
+   "start": 2.0,
+   "end": 2.36
+  },
+  {
+   "w": "out",
+   "start": 2.4,
+   "end": 2.76
+  },
+  {
+   "w": "of",
+   "start": 2.8,
+   "end": 3.16
+  },
+  {
+   "w": "a",
+   "start": 3.2,
+   "end": 3.56
+  },
+  {
+   "w": "hundred.",
+   "start": 3.6,
+   "end": 3.96
+  },
+  {
+   "w": "Every",
+   "start": 4.45,
+   "end": 4.81
+  },
+  {
+   "w": "grid",
+   "start": 4.85,
+   "end": 5.21
+  },
+  {
+   "w": "is",
+   "start": 5.25,
+   "end": 5.61
+  },
+  {
+   "w": "a",
+   "start": 5.65,
+   "end": 6.01
+  },
+  {
+   "w": "different",
+   "start": 6.05,
+   "end": 6.5
+  },
+  {
+   "w": "kind",
+   "start": 6.55,
+   "end": 6.91
+  },
+  {
+   "w": "of",
+   "start": 6.95,
+   "end": 7.31
+  },
+  {
+   "w": "place.",
+   "start": 7.35,
+   "end": 7.71
+  },
+  {
+   "w": "In",
+   "start": 9.1,
+   "end": 9.46
+  },
+  {
+   "w": "the",
+   "start": 9.5,
+   "end": 9.86
+  },
+  {
+   "w": "suburbs,",
+   "start": 9.9,
+   "end": 10.26
+  },
+  {
+   "w": "half",
+   "start": 10.5,
+   "end": 10.86
+  },
+  {
+   "w": "of",
+   "start": 10.9,
+   "end": 11.26
+  },
+  {
+   "w": "students",
+   "start": 11.3,
+   "end": 11.75
+  },
+  {
+   "w": "are",
+   "start": 11.8,
+   "end": 12.16
+  },
+  {
+   "w": "driven",
+   "start": 12.2,
+   "end": 12.56
+  },
+  {
+   "w": "by",
+   "start": 12.6,
+   "end": 12.96
+  },
+  {
+   "w": "car.",
+   "start": 13.0,
+   "end": 13.36
+  },
+  {
+   "w": "Over",
+   "start": 14.75,
+   "end": 15.11
+  },
+  {
+   "w": "ten",
+   "start": 15.15,
+   "end": 15.51
+  },
+  {
+   "w": "years,",
+   "start": 15.55,
+   "end": 15.91
+  },
+  {
+   "w": "more",
+   "start": 16.15,
+   "end": 16.51
+  },
+  {
+   "w": "city",
+   "start": 16.55,
+   "end": 16.91
+  },
+  {
+   "w": "students",
+   "start": 16.95,
+   "end": 17.4
+  },
+  {
+   "w": "walk",
+   "start": 17.45,
+   "end": 17.81
+  },
+  {
+   "w": "and",
+   "start": 17.85,
+   "end": 18.21
+  },
+  {
+   "w": "bike.",
+   "start": 18.25,
+   "end": 18.61
+  },
+  {
+   "w": "Now",
+   "start": 20.0,
+   "end": 20.36
+  },
+  {
+   "w": "it's",
+   "start": 20.4,
+   "end": 20.76
+  },
+  {
+   "w": "your",
+   "start": 20.8,
+   "end": 21.16
+  },
+  {
+   "w": "turn.",
+   "start": 21.2,
+   "end": 21.56
+  },
+  {
+   "w": "Click",
+   "start": 22.05,
+   "end": 22.41
+  },
+  {
+   "w": "Explore",
+   "start": 22.45,
+   "end": 22.81
+  },
+  {
+   "w": "to",
+   "start": 22.85,
+   "end": 23.21
+  },
+  {
+   "w": "compare",
+   "start": 23.25,
+   "end": 23.61
+  },
+  {
+   "w": "the",
+   "start": 23.65,
+   "end": 24.01
+  },
+  {
+   "w": "years",
+   "start": 24.05,
+   "end": 24.41
+  },
+  {
+   "w": "yourself.",
+   "start": 24.45,
+   "end": 24.9
+  }
+ ],
+ "estimated": true
+}

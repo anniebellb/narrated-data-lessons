@@ -1,0 +1,353 @@
+{
+ "terms": {
+  "public": [
+   "public"
+  ],
+  "private": [
+   "private"
+  ],
+  "charter": [
+   "charter"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each bubble is one school. Further right means more study time, higher means better scores, and bigger bubbles have more students.",
+   "cue": {
+    "pos": 2015,
+    "focus": null,
+    "beacon": null
+   },
+   "beats": [
+    {
+     "at": "each bubble",
+     "cue": {
+      "beacon": {
+       "entity": "school-e",
+       "label": "1 school"
+      }
+     },
+     "t": 0.4
+    },
+    {
+     "at": "further right",
+     "cue": {
+      "beacon": null
+     },
+     "t": 2.85
+    }
+   ],
+   "words": [
+    {
+     "w": "Each",
+     "t": 0.4
+    },
+    {
+     "w": "bubble",
+     "t": 0.8
+    },
+    {
+     "w": "is",
+     "t": 1.2
+    },
+    {
+     "w": "one",
+     "t": 1.6
+    },
+    {
+     "w": "school.",
+     "t": 2.0
+    },
+    {
+     "w": "Further",
+     "t": 2.85
+    },
+    {
+     "w": "right",
+     "t": 3.25
+    },
+    {
+     "w": "means",
+     "t": 3.65
+    },
+    {
+     "w": "more",
+     "t": 4.05
+    },
+    {
+     "w": "study",
+     "t": 4.45
+    },
+    {
+     "w": "time,",
+     "t": 4.85
+    },
+    {
+     "w": "higher",
+     "t": 5.45
+    },
+    {
+     "w": "means",
+     "t": 5.85
+    },
+    {
+     "w": "better",
+     "t": 6.25
+    },
+    {
+     "w": "scores,",
+     "t": 6.65
+    },
+    {
+     "w": "and",
+     "t": 7.25
+    },
+    {
+     "w": "bigger",
+     "t": 7.65
+    },
+    {
+     "w": "bubbles",
+     "t": 8.05
+    },
+    {
+     "w": "have",
+     "t": 8.45
+    },
+    {
+     "w": "more",
+     "t": 8.85
+    },
+    {
+     "w": "students.",
+     "t": 9.25
+    }
+   ],
+   "start": 0.0,
+   "end": 10.75
+  },
+  {
+   "id": "move",
+   "title": "Ten years of change",
+   "say": "Now watch ten years go by. Most schools drift up and to the right.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "watch",
+     "cue": {
+      "pos": 2015
+     },
+     "t": 11.5
+    },
+    {
+     "at": "up and to the right",
+     "cue": {
+      "pos": 2024
+     },
+     "t": 15.15
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 11.1
+    },
+    {
+     "w": "watch",
+     "t": 11.5
+    },
+    {
+     "w": "ten",
+     "t": 11.9
+    },
+    {
+     "w": "years",
+     "t": 12.3
+    },
+    {
+     "w": "go",
+     "t": 12.7
+    },
+    {
+     "w": "by.",
+     "t": 13.1
+    },
+    {
+     "w": "Most",
+     "t": 13.95
+    },
+    {
+     "w": "schools",
+     "t": 14.35
+    },
+    {
+     "w": "drift",
+     "t": 14.75
+    },
+    {
+     "w": "up",
+     "t": 15.15
+    },
+    {
+     "w": "and",
+     "t": 15.55
+    },
+    {
+     "w": "to",
+     "t": 15.95
+    },
+    {
+     "w": "the",
+     "t": 16.35
+    },
+    {
+     "w": "right.",
+     "t": 16.75
+    }
+   ],
+   "start": 10.75,
+   "end": 18.15
+  },
+  {
+   "id": "one",
+   "title": "One school's path",
+   "say": "Follow School E. Its dotted trail shows every year along the way.",
+   "cue": {
+    "pos": 2024,
+    "focus": {
+     "entities": [
+      "school-e"
+     ]
+    },
+    "trail": [
+     "school-e"
+    ]
+   },
+   "beats": [],
+   "words": [
+    {
+     "w": "Follow",
+     "t": 18.5
+    },
+    {
+     "w": "School",
+     "t": 18.9
+    },
+    {
+     "w": "E.",
+     "t": 19.3
+    },
+    {
+     "w": "Its",
+     "t": 20.15
+    },
+    {
+     "w": "dotted",
+     "t": 20.55
+    },
+    {
+     "w": "trail",
+     "t": 20.95
+    },
+    {
+     "w": "shows",
+     "t": 21.35
+    },
+    {
+     "w": "every",
+     "t": 21.75
+    },
+    {
+     "w": "year",
+     "t": 22.15
+    },
+    {
+     "w": "along",
+     "t": 22.55
+    },
+    {
+     "w": "the",
+     "t": 22.95
+    },
+    {
+     "w": "way.",
+     "t": 23.35
+    }
+   ],
+   "start": 18.15,
+   "end": 24.75
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to play the years yourself.",
+   "cue": {
+    "focus": null,
+    "trail": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     },
+     "t": 27.55
+    }
+   ],
+   "words": [
+    {
+     "w": "Now",
+     "t": 25.1
+    },
+    {
+     "w": "it's",
+     "t": 25.5
+    },
+    {
+     "w": "your",
+     "t": 25.9
+    },
+    {
+     "w": "turn.",
+     "t": 26.3
+    },
+    {
+     "w": "Click",
+     "t": 27.15
+    },
+    {
+     "w": "Explore",
+     "t": 27.55
+    },
+    {
+     "w": "to",
+     "t": 27.95
+    },
+    {
+     "w": "play",
+     "t": 28.35
+    },
+    {
+     "w": "the",
+     "t": 28.75
+    },
+    {
+     "w": "years",
+     "t": 29.15
+    },
+    {
+     "w": "yourself.",
+     "t": 29.55
+    }
+   ],
+   "start": 24.75,
+   "end": 32.9
+  }
+ ],
+ "duration": 32.9,
+ "audio": "narration"
+}

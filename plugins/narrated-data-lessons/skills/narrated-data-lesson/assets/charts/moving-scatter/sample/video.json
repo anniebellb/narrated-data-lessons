@@ -1,0 +1,98 @@
+{
+ "terms": {
+  "public": [
+   "public"
+  ],
+  "private": [
+   "private"
+  ],
+  "charter": [
+   "charter"
+  ]
+ },
+ "scenes": [
+  {
+   "id": "read",
+   "title": "How to read the chart",
+   "say": "Each bubble is one school. Further right means more study time, higher means better scores, and bigger bubbles have more students.",
+   "cue": {
+    "pos": 2015,
+    "focus": null,
+    "beacon": null
+   },
+   "beats": [
+    {
+     "at": "each bubble",
+     "cue": {
+      "beacon": {
+       "entity": "school-e",
+       "label": "1 school"
+      }
+     }
+    },
+    {
+     "at": "further right",
+     "cue": {
+      "beacon": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "move",
+   "title": "Ten years of change",
+   "say": "Now watch ten years go by. Most schools drift up and to the right.",
+   "cue": {
+    "focus": null
+   },
+   "beats": [
+    {
+     "at": "watch",
+     "cue": {
+      "pos": 2015
+     }
+    },
+    {
+     "at": "up and to the right",
+     "cue": {
+      "pos": 2024
+     }
+    }
+   ]
+  },
+  {
+   "id": "one",
+   "title": "One school's path",
+   "say": "Follow School E. Its dotted trail shows every year along the way.",
+   "cue": {
+    "pos": 2024,
+    "focus": {
+     "entities": [
+      "school-e"
+     ]
+    },
+    "trail": [
+     "school-e"
+    ]
+   },
+   "beats": []
+  },
+  {
+   "id": "turn",
+   "title": "Your turn",
+   "say": "Now it's your turn. Click Explore to play the years yourself.",
+   "cue": {
+    "focus": null,
+    "trail": null
+   },
+   "beats": [
+    {
+     "at": "explore",
+     "cue": {
+      "nudge": "explore"
+     }
+    }
+   ]
+  }
+ ]
+}

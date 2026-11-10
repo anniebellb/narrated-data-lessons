@@ -1,0 +1,19 @@
+{
+ "title": "How students get to school (sample)",
+ "kicker": "Sample lesson",
+ "badge": "Sample data \u00b7 made up",
+ "chart": "unit-waffle",
+ "data": "data.json",
+ "storyboard": "video.timed.json",
+ "narration": null,
+ "music": null,
+ "keyLabel": "How they get there",
+ "detailIdle": {
+  "kicker": "",
+  "title": "Hover over a square",
+  "body": "Hover over a square to see that place's numbers."
+ },
+ "notes": [
+  "SAMPLE DATA (made up) for testing this chart type. Replace with real data before publishing."
+ ]
+}

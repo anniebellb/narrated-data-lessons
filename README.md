@@ -1,85 +1,101 @@
-# Data Visualizations: narrated dot-timeline lessons
+# Narrated Data Lessons
 
-Learning experiences built on real behavioral data. Each dot is one person; dots move between states through the
-day; a narrated video walks learners through the story, then they explore it themselves.
-Destined for LearnCurio / Mindsmith. The goal is to turn this into a reusable skill.
+Turn a dataset into a **narrated, animated data lesson**: a short video where a narrator
+walks learners through the data while the chart performs, word by word, followed by an
+**Explore** mode where they play with it themselves.
 
-- **Design & interaction rules (read before building another):** [docs/design-rules.md](docs/design-rules.md)
-- **How the first lesson evolved:** [docs/changelog.md](docs/changelog.md)
+**▶ See it live:** [Who we spend our day with, and how it changes as we age](https://anniebellb.github.io/narrated-data-lessons/viz/who-by-age/)
+(American Time Use Survey, 81,148 people)
 
-## Lesson 1: Who we spend our day with, by age (`viz/who-by-age/`)
+This repo contains:
+1. **The example lesson** you can watch, read and fork.
+2. **A Claude Code skill** that builds new lessons from your own data: give it a link or
+   a file, and it checks whether the data fits, picks the best chart type, writes and
+   fact-checks a script, records narration, and assembles the lesson with you.
+3. **A reusable lesson engine** with four animated chart types.
 
-American Time Use Survey 2015–2019 + 2022–2025 (81,148 people), 7 age groups ×
-8 "who they're with" states. Video (≈2:03, 10 chapters, ElevenLabs narration + music bed)
-and Explore (free-running simulation, hours-by-age line chart, table).
+## What you need
 
-### Run it
-
-```bash
-python3 scripts/devserver.py 8123      # no-cache static server
-```
-Open http://localhost:8123/viz/who-by-age/
-
-### Files
-
-| Path | What it is |
+| To… | You need |
 |---|---|
-| `data/raw/` | BLS ATUS 2003–2025 multi-year zips (activity, who, summary, respondent). **Not committed** (≈1 GB). Download from https://www.bls.gov/tus/data/datafiles-0325.htm |
-| `scripts/build_who_by_age.py` | Raw ATUS → `data/who-by-age.json` (canonical schema below) |
-| `data/who-by-age.json` | States, 500 resampled people per age group, aggregates (hours by age, state share by 10-min slot), source notes |
-| `viz/who-by-age/index.html` | The lesson (single page: engine, styles, both tabs) |
-| `viz/who-by-age/video.json` | Storyboard: scenes (`say` text + cue) and beats pinned to phrases |
-| `viz/who-by-age/video.timed.json` | Storyboard with every word/beat timed (generated) |
-| `viz/who-by-age/narration/script.txt` | ElevenLabs-tagged script (pauses, CAPS, ellipses) |
-| `viz/who-by-age/narration/narration.mp3` | Current narration take (Quentin, Eleven v4, stability 80) |
-| `viz/who-by-age/narration/narration.words.json` | Whisper word timings |
-| `viz/who-by-age/narration/music.m4a` | Music bed, extended with a matched loop |
-| `viz/who-by-age/narration/source/` | Original downloads (narration takes 1–3, two music takes) |
-| `scripts/align_narration.py` | Whisper word timing (needs faster-whisper; the venv in `Hardware Learning/.venv-align` has it) |
-| `scripts/time_storyboard.py` | Pins storyboard beats to the word timings |
-| `scripts/find_loop.py` / `scripts/extend_music.py` | Find a seamless jump point in a music track and extend it |
-| `scripts/devserver.py` | No-cache dev server (used by `.claude/launch.json`) |
+| Watch the example | Nothing: open the link above |
+| Build your own lessons with the skill | [Claude Code](https://claude.com/claude-code), Python 3 (with `pandas`), a modern browser |
+| Add a real narrator voice and music | **An [ElevenLabs](https://elevenlabs.io) account.** The skill uses it for the narration (voice: *Quentin – Narrator and Educator*, Eleven v4) and optional background music. A paid plan is recommended if you'll publish the lesson; check ElevenLabs' terms for your plan. Without an account you can still build and preview lessons with a free placeholder voice (Mac) or silently with captions. |
+| Precise word timing for recorded narration | `faster-whisper` (optional, Python 3.9–3.12) |
+| Share your lesson with a link | A free GitHub account (GitHub Pages) or any static web host |
 
-### Canonical data schema (`dot-timeline/v1`)
+## Use the skill
 
-```jsonc
-{
-  "states": [{ "id", "label", "note?" }],          // row order is set in the page
-  "groups": [{ "id", "label", "n_respondents",
-               "people": [[state, endMinute, state, endMinute, ...], ...] }],
-  "clock": { "start": "04:00", "minutes": 1440 },
-  "aggregates": { "hours_with_by_age": {...}, "state_share_by_slot": {...} },
-  "source": { "name", "publisher", "url", "years_used", "respondents", "notes": [...] }
-}
+In Claude Code:
 ```
-A person is a flat list of `[state index, minute the state ends]` pairs from the start of
-the diary day. Any dataset that can be shaped like this can drive the same page.
+/plugin marketplace add anniebellb/narrated-data-lessons
+/plugin install narrated-data-lessons@narrated-data-lessons
+```
+Then just ask, for example: *"Make a narrated data lesson from this data: <link or file>"*.
 
-### Rebuild pipeline
+The skill will:
+1. **Check your data** and tell you plainly whether it works for this kind of lesson (and if not, why, and what data would).
+2. **Suggest the chart type and the story** → you approve.
+3. **Shape the data** and compute every number the narrator will say (checked against the source).
+4. **Write the script** → you approve.
+5. **Show you a preview**, then walk you through recording the narration in ElevenLabs.
+6. **Check itself at every step**: data accuracy, timing, and how it looks at every narrated moment.
 
-```bash
-# 1. data
+It's written for non-technical users: it tells you exactly what to click whenever it needs you.
+
+**Other ways to install:** copy `plugins/narrated-data-lessons/skills/narrated-data-lesson/`
+to `~/.claude/skills/narrated-data-lesson/`, or zip that folder and upload it at
+claude.ai → Customize → Skills. **Updating:** `/plugin marketplace update narrated-data-lessons`.
+
+## The four chart types
+
+| Chart | Best for | Starter (sample data) |
+|---|---|---|
+| **Dot timeline** | What people do, moment to moment, compared across groups (one dot = one person) | [example lesson](viz/who-by-age/) |
+| **Line reveal** | How something changes over time (lines draw as the narrator speaks) | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/line-reveal/sample/) |
+| **Moving scatter** | How two measures relate and shift over the years (one bubble = one country, school…) | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/moving-scatter/sample/) |
+| **Unit / waffle** | How many out of 100, compared across groups and over time | [sample](plugins/narrated-data-lessons/skills/narrated-data-lesson/assets/charts/unit-waffle/sample/) |
+
+The samples use **made-up data** for demonstration only.
+
+## Fork it / branch off it
+
+Fork this repo to make your own lessons, add chart types, or change the look.
+- **Design and interaction rules** (look, motion, narration, sync, emphasis effects, music, data honesty):
+  [`references/design-rules.md`](plugins/narrated-data-lessons/skills/narrated-data-lesson/references/design-rules.md)
+- **Adding a chart type:** [`references/chart-interface.md`](plugins/narrated-data-lessons/skills/narrated-data-lesson/references/chart-interface.md)
+- **The example lesson on the shared engine:** [`examples/who-by-age-engine/`](examples/who-by-age-engine/)
+
+## Repository layout
+
+```
+viz/who-by-age/                the original example lesson (as approved), with narration + music
+data/who-by-age.json           its data (built by scripts/build_who_by_age.py)
+examples/who-by-age-engine/    the same lesson running on the shared engine (template for forks)
+plugins/narrated-data-lessons/ the Claude Code plugin
+  skills/narrated-data-lesson/
+    SKILL.md                   the workflow, checkpoints and self-checks
+    references/                design rules, chart chooser, data formats, storyboard, narration, guidance
+    assets/engine/             lesson player (shell, video, captions, music, Explore) + shared effects
+    assets/charts/<type>/      the four chart types, each with a sample lesson
+    scripts/                   data profiler, lesson checker, timing, placeholder voice, music tools
+docs/                          design log and changelog from building the first lesson
+scripts/                       pipeline for the example lesson
+```
+
+## Rebuilding the example lesson's data
+
+The raw survey files (~1 GB) aren't included. Download the ATUS 2003–2025 multi-year
+**Activity**, **Who** and **Activity summary** files from the
+[BLS](https://www.bls.gov/tus/data/datafiles-0325.htm) into `data/raw/`, then:
+```
+python3 -m venv .venv && .venv/bin/pip install pandas pyarrow
 .venv/bin/python scripts/build_who_by_age.py
-
-# 2. narration: record script.txt in ElevenLabs (settings in docs/design-rules.md §4),
-#    save as viz/who-by-age/narration/narration.mp3, then time the words
-"../Hardware Learning/.venv-align/bin/python" scripts/align_narration.py \
-  viz/who-by-age/narration/narration.mp3 --out viz/who-by-age/narration/narration.words.json
-
-# 3. pin the storyboard to the words (fails if a beat's phrase isn't in its scene)
-python3 scripts/time_storyboard.py viz/who-by-age/video.json viz/who-by-age/narration/narration.words.json
-
-# 4. music (only if the video outgrows the track)
-afconvert -f WAVE -d LEI16 narration/source/<track>.mp3 /tmp/m.wav
-.venv/bin/python scripts/find_loop.py /tmp/m.wav --cut 90 110 --back 8 75
-.venv/bin/python scripts/extend_music.py /tmp/m.wav /tmp/ext.wav --cut <cut> --back <back> --xfade 0.8
-python3 "../Hardware Learning/how-things-work/scripts/audio_prep.py" music /tmp/ext.wav \
-  --out viz/who-by-age/narration/music.m4a
 ```
-Current music splice: `--cut 90.28 --back 72.28 --xfade 0.8` (18 s = 6 bars apart).
 
-### Environment
+## License
 
-- Project venv `.venv` (pandas, numpy, pyarrow) for data + audio scripts.
-- Whisper alignment uses `Hardware Learning/.venv-align` (faster-whisper, Python 3.9).
-- macOS `afconvert` for audio conversion (no ffmpeg needed).
+- **Code** (engine, chart types, scripts, skill): [MIT](LICENSE)
+- **Lesson content** (scripts, narration and music recordings, lesson text, docs): [CC BY 4.0](LICENSE-CONTENT.md)
+  (reuse with credit to Annie Kiele Brown)
+- **Data:** American Time Use Survey data is from the U.S. Bureau of Labor Statistics (public domain).
